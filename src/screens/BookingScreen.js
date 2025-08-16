@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, TouchableOpacity, ScrollView, Modal,
   FlatList, Alert, Platform, ActivityIndicator, KeyboardAvoidingView
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from 'react-native-modal-datetime-picker'; // Changed import
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import MainLayout from '../components/MainLayout';
@@ -113,6 +113,17 @@ const BookingScreen = () => {
   };
 
   const selectedService = services.find(s => s.uniqueId === serviceId);
+
+  // New handler functions for date and time picker
+  const handleDateConfirm = (selectedDate) => {
+    setShowDatePicker(false);
+    setDate(selectedDate);
+  };
+
+  const handleTimeConfirm = (selectedTime) => {
+    setShowTimePicker(false);
+    setTime(selectedTime);
+  };
 
   return (
     <MainLayout title="Book Appointment">
@@ -230,18 +241,6 @@ const BookingScreen = () => {
                     {date ? `📆 ${date.toDateString()}` : 'Select Date'}
                   </Text>
                 </TouchableOpacity>
-                {showDatePicker && (
-                  <DateTimePicker
-                    value={date}
-                    mode="date"
-                    minimumDate={new Date()}
-                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    onChange={(event, selectedDate) => {
-                      setShowDatePicker(false);
-                      if (selectedDate) setDate(selectedDate);
-                    }}
-                  />
-                )}
               </View>
 
               <View style={{ flex: 1 }}>
@@ -251,19 +250,27 @@ const BookingScreen = () => {
                     {time ? `🕒 ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Select Time'}
                   </Text>
                 </TouchableOpacity>
-                {showTimePicker && (
-                  <DateTimePicker
-                    value={time}
-                    mode="time"
-                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                    onChange={(event, selectedTime) => {
-                      setShowTimePicker(false);
-                      if (selectedTime) setTime(selectedTime);
-                    }}
-                  />
-                )}
               </View>
             </View>
+            
+            {/* New Modal Date/Time Pickers */}
+            <DateTimePickerModal
+              isVisible={showDatePicker}
+              mode="date"
+              onConfirm={handleDateConfirm}
+              onCancel={() => setShowDatePicker(false)}
+              date={date}
+              minimumDate={new Date()}
+            />
+
+            <DateTimePickerModal
+              isVisible={showTimePicker}
+              mode="time"
+              onConfirm={handleTimeConfirm}
+              onCancel={() => setShowTimePicker(false)}
+              date={time}
+            />
+            {/* End of New Modal Pickers */}
 
             <TouchableOpacity style={styles.bookButton} onPress={handlePaymentBooking} disabled={loading}>
               {loading ? (

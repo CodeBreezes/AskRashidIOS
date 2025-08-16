@@ -41,7 +41,7 @@ const PaymentInnerScreen = () => {
       const data = await response.json();
       if (data?.clientSecret && data?.paymentIntentId) {
         setClientSecret(data.clientSecret);
-        bookingData.stripePaymentIntentId = data.paymentIntentId; 
+        bookingData.stripePaymentIntentId = data.paymentIntentId; // ✅ Fix: Store it here
       } else {
         throw new Error('Client secret or paymentIntentId not received');
       }

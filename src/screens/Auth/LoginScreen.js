@@ -77,9 +77,7 @@ const LoginScreen = () => {
         await AsyncStorage.setItem('email', email);
         await AsyncStorage.setItem('phone', String(mobile));
         try {
-          debugger;
           const imgRes = await axios.get(`http://appointment.bitprosofttech.com/api/Services/GetUserById?uniqueId=${userId}`);
-           debugger;
           if (imgRes.status === 200 && imgRes.data?.profileImageUrl) {
             await AsyncStorage.setItem('profileImageUrl', imgRes.data.profileImageUrl);
           }
@@ -99,44 +97,44 @@ const LoginScreen = () => {
   };
 
   const handleGoogleSignIn = async () => {
+    setLoading(true);
     try {
-      debugger;
-      setLoading(true);
       const user = await handleGoogleLogin();
+      
       const emailExists = await checkEmailExists(user.email);
-      const userData = await getUserByEmail(user.email);
-      try {
+      
+      if (emailExists) {
+        const userData = await getUserByEmail(user.email);
         if (userData?.loginEmail) {
-          await AsyncStorage.setItem('token', user.id);
-          await AsyncStorage.setItem('customerFullName', userData.fullName || '');
-          await AsyncStorage.setItem('email', userData.loginEmail || '');
-          await AsyncStorage.setItem('userId', userData.uniqueId.toString());
-          await AsyncStorage.setItem('phone', userData.phoneNumber?.toString() || '');
-          if (user.photoUrl) {
-            await AsyncStorage.setItem('profileImageUrl', user.photoUrl);
+          const loginResponse = await loginUser({
+            loginName: userData.phoneNumber || userData.loginEmail,
+            password: 'google_user_placeholder', 
+          });
+
+          if (loginResponse.status === 200 && loginResponse.data?.isLoginSuccess && loginResponse.data?.token) {
+            const loggedInUser = loginResponse.data;
+            await AsyncStorage.setItem('token', loggedInUser.token);
+            await AsyncStorage.setItem('userId', loggedInUser.userId.toString());
+            await AsyncStorage.setItem('customerFullName', `${loggedInUser.fName} ${loggedInUser.lName}`);
+            await AsyncStorage.setItem('email', loggedInUser.email);
+            await AsyncStorage.setItem('phone', String(loggedInUser.mobile));
+            if (user.photo) {
+              await AsyncStorage.setItem('profileImageUrl', user.photo);
+            }
+            showModal('✅ Success', 'You are now logged in with Google!', () => navigation.replace('Dashboard'));
+          } else {
+            showModal('Login Failed', loginResponse?.data?.errorMessages || 'Could not log in with existing Google account. Please use regular login.');
           }
         } else {
-          console.warn('userData is missing required fields:', userData);
-        }
-      } catch (error) {
-        console.error('Error storing user data:', error);
-      }
-      if (emailExists) {
-
-        if (userData) {
-          return showModal('✅ Success', 'You are now logged in With Google!', () =>
-            navigation.replace('Dashboard')
-          );
-        } else {
-          return showModal('Login Error', 'Something went wrong while verifying login. Please try again.');
+          showModal('Login Error', 'User data not found. Please try again.');
         }
       } else {
         setGoogleUserData(user);
         setShowGoogleModal(true);
       }
     } catch (error) {
-      console.error(error);
-      showModal('Google Sign-In Error', 'Please try again.');
+      console.error('Google Sign-In Error:', error.message);
+      showModal('Google Sign-In Error', error.message || 'Please try again.');
     } finally {
       setLoading(false);
     }
@@ -147,9 +145,15 @@ const LoginScreen = () => {
       return showModal('Validation Error', 'All fields are required');
     }
 
+    if (googlePassword.length < 6) {
+      return showModal('Error', 'Password must be at least 6 characters.');
+    }
+
     if (googlePassword !== googleConfirmPassword) {
       return showModal('Error', 'Passwords do not match');
     }
+
+    setLoading(true);
 
     const payload = {
       firstName: googleUserData?.givenName || '',
@@ -181,6 +185,9 @@ const LoginScreen = () => {
           await AsyncStorage.setItem('customerFullName', `${user.fName} ${user.lName}`);
           await AsyncStorage.setItem('email', user.email);
           await AsyncStorage.setItem('phone', googlePhone);
+          if (googleUserData?.photoUrl) {
+            await AsyncStorage.setItem('profileImageUrl', googleUserData.photoUrl);
+          }
 
           setShowGoogleModal(false);
           showModal('✅ Success', 'You are now logged in With Google!', () =>
@@ -194,6 +201,8 @@ const LoginScreen = () => {
       }
     } catch (err) {
       showModal('Error', err?.message || 'Something went wrong');
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -1,5 +1,3 @@
-
-
 import axios from 'axios';
 
 const BASE_URL = 'http://appointment.bitprosofttech.com/api/UserAccount';
@@ -15,23 +13,22 @@ export const loginUser = async (credentials) => {
 
 export const checkEmailExists = async (email) => {
   try {
+    // Corrected: Send the email as a JSON object, not a string.
     const response = await axios.post(
       'http://appointment.bitprosofttech.com/api/UserAccount/CheckEmailExists',
-      JSON.stringify(email), 
+      { email: email }, // This is the key change
       {
         headers: {
           'Content-Type': 'application/json',
         },
       }
     );
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Email check failed:', error?.response?.data || error.message);
     return false;
   }
 };
-
-
 
 export const getUserByEmail = async (email) => {
   try {

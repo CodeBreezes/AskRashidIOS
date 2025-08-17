@@ -15,7 +15,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { Picker } from '@react-native-picker/picker';
 import CustomAlertModal from '../components/CustomAlertModal';
 import MainLayout from '../components/MainLayout';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -45,6 +44,9 @@ const UpdateProfileScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', message: '' });
+
+  // NEW state for dropdown
+  const [showGenderDropdown, setShowGenderDropdown] = useState(false);
 
   // API Endpoints
   const API_BASE_URL = 'http://appointment.bitprosofttech.com/api';
@@ -271,16 +273,35 @@ const UpdateProfileScreen = () => {
                 maximumDate={new Date()}
               />
             </View>
+
+            {/* GENDER DROPDOWN */}
             <View style={styles.column}>
               <Text style={styles.label}>Gender</Text>
-              <View style={styles.pickerContainer}>
-                <Picker selectedValue={gender} onValueChange={setGender} style={styles.picker}>
-                  <Picker.Item label="Gender" value="" color="#999" />
-                  <Picker.Item label="Male" value="Male" />
-                  <Picker.Item label="Female" value="Female" />
-                  <Picker.Item label="Other" value="Other" />
-                </Picker>
-              </View>
+              {showGenderDropdown ? (
+                <View style={styles.dropdownContainer}>
+                  {["Male", "Female", "Other"].map((option) => (
+                    <TouchableOpacity
+                      key={option}
+                      style={styles.dropdownItem}
+                      onPress={() => {
+                        setGender(option);
+                        setShowGenderDropdown(false);
+                      }}
+                    >
+                      <Text style={styles.dropdownText}>{option}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={styles.genderDisplay}
+                  onPress={() => setShowGenderDropdown(true)}
+                >
+                  <Text style={styles.genderDisplayText}>
+                    {gender ? gender : "Select Gender"}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
 
@@ -400,26 +421,37 @@ const styles = StyleSheet.create({
   dateText: {
     color: '#333',
   },
-  pickerContainer: {
+
+  // NEW gender dropdown styles
+  genderDisplay: {
     borderWidth: 1,
     borderColor: '#ddd',
     borderRadius: 10,
-    overflow: 'hidden',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
     backgroundColor: '#fff',
-    ...Platform.select({
-      ios: {
-        paddingVertical: 4,
-      },
-      android: {
-        paddingVertical: 0,
-      },
-    }),
   },
-  picker: {
-    height: 50,
-    width: '100%',
+  genderDisplayText: {
+    fontSize: 16,
     color: '#333',
   },
+  dropdownContainer: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    backgroundColor: '#fff',
+  },
+  dropdownItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  dropdownText: {
+    fontSize: 16,
+    color: '#333',
+  },
+
   button: {
     backgroundColor: '#0D5EA6',
     paddingVertical: 16,

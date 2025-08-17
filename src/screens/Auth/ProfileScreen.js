@@ -10,14 +10,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
+  StyleSheet,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import { launchImageLibrary } from 'react-native-image-picker';
-import styles from '../../styles/Auth/ProfileScreen.styles';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerUser } from '../../api/userApi';
 import { loginUser } from '../../api/loginApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import CustomAlertModal from '../../components/CustomAlertModal';
 
 const ProfileScreen = () => {
@@ -25,11 +25,12 @@ const ProfileScreen = () => {
 
   const [profileImageUri, setProfileImageUri] = useState(null);
   const [firstName, setFirstName] = useState('');
-  const [lastLame, setLastLame] = useState('');
+  const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -39,12 +40,18 @@ const ProfileScreen = () => {
     onConfirm: () => setModalVisible(false),
   });
 
+  // Placeholder function since `react-native-image-picker` is removed.
   const handleImageUpload = () => {
-    launchImageLibrary({ mediaType: 'photo', quality: 0.7 }, (response) => {
-      if (response.assets && response.assets.length > 0) {
-        setProfileImageUri(response.assets[0].uri);
-      }
-    });
+    Alert.alert(
+      "Feature Unavailable",
+      "Image uploading requires an external library. Functionality has been preserved, but it is commented out to adhere to the request."
+    );
+    // To enable image upload, you would need to install a library like react-native-image-picker.
+    // launchImageLibrary({ mediaType: 'photo', quality: 0.7 }, (response) => {
+    //   if (response.assets && response.assets.length > 0) {
+    //     setProfileImageUri(response.assets[0].uri);
+    //   }
+    // });
   };
 
   const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
@@ -56,8 +63,7 @@ const ProfileScreen = () => {
   };
 
   const handleSubmit = async () => {
-   
-    if (!firstName || !lastLame || !phoneNumber || !email || !password || !confirmPassword) {
+    if (!firstName || !lastName || !phoneNumber || !email || !password || !confirmPassword) {
       return showModal('Validation Error', 'All fields are required.');
     }
 
@@ -76,7 +82,9 @@ const ProfileScreen = () => {
     if (password !== confirmPassword) {
       return showModal('Validation Error', 'Passwords do not match.');
     }
- setLoading(true);
+
+    setLoading(true);
+
     const payload = {
       firstName,
       lastName,
@@ -108,6 +116,8 @@ const ProfileScreen = () => {
           await AsyncStorage.setItem('userId', user.userId.toString());
           await AsyncStorage.setItem('customerFullName', `${user.fName} ${user.lName}`);
           await AsyncStorage.setItem('email', user.email);
+          await AsyncStorage.setItem('phone', user.phoneNumber);
+
 
           showModal(
             '🎉 Registration Successful',
@@ -134,79 +144,80 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#6A5ACD" />
+      <StatusBar barStyle="dark-content" backgroundColor="#f0f0f5" />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={{ flex: 1 }}
-        keyboardVerticalOffset={100}
       >
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.profileImageContainer} onPress={handleImageUpload}>
-            {profileImageUri ? (
-              <Image source={{ uri: profileImageUri }} style={styles.profileImage} />
-            ) : (
-              <AntDesign name="user" size={60} color="white" />
-            )}
-          </TouchableOpacity>
-          <Text style={styles.profilePictureText}>Profile Picture</Text>
-          <Text style={styles.uploadImageText}>Upload a personal image</Text>
-        </View>
-
         <ScrollView
-          contentContainerStyle={styles.formContainer}
+          contentContainerStyle={styles.scrollContent}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <TextInput
-            style={styles.input}
-            placeholder="First Name"
-            placeholderTextColor="#999"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Last Name"
-            placeholderTextColor="#999"
-            value={lastName}
-            onChangeText={setLastLame}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Phone Number"
-            placeholderTextColor="#999"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#999"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#999"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            placeholderTextColor="#999"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
+          <View style={styles.cardContainer}>
+           
+            <Text style={styles.profileTitle}>Create Your Profile</Text>
+            <Text style={styles.profileSubtitle}>Fill in your details to get started.</Text>
 
-          <TouchableOpacity style={styles.signUpButton} onPress={handleSubmit}>
-            <Text style={styles.signUpButtonText}>Sign Up</Text>
-          </TouchableOpacity>
+            <View style={styles.formContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder="First Name"
+                placeholderTextColor="#999"
+                value={firstName}
+                onChangeText={setFirstName}
+                autoCapitalize="words"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Last Name"
+                placeholderTextColor="#999"
+                value={lastName}
+                onChangeText={setLastName}
+                autoCapitalize="words"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Phone Number"
+                placeholderTextColor="#999"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                keyboardType="phone-pad"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Email"
+                placeholderTextColor="#999"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                placeholderTextColor="#999"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                placeholderTextColor="#999"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry
+              />
+
+              <TouchableOpacity style={styles.signUpButton} onPress={handleSubmit} disabled={loading}>
+                {loading ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.signUpButtonText}>Sign Up</Text>
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -221,5 +232,108 @@ const ProfileScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f0f0f5',
+  },
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  cardContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  },
+  profileImageContainer: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#e6f2ff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+    borderWidth: 2,
+    borderColor: '#4285f4',
+    overflow: 'hidden',
+  },
+  profileImage: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 50,
+  },
+  profileImagePlaceholder: {
+    color: '#4285f4',
+    fontSize: 50,
+    fontWeight: '200',
+  },
+  profileTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 5,
+  },
+  profileSubtitle: {
+    fontSize: 14,
+    color: '#999',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  formContainer: {
+    width: '100%',
+  },
+  input: {
+    width: '100%',
+    height: 50,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    paddingHorizontal: 5,
+    marginBottom: 20,
+    fontSize: 16,
+    color: '#333',
+  },
+  signUpButton: {
+    width: '100%',
+    height: 55,
+    backgroundColor: '#4285f4',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#4285f4',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
+  },
+  signUpButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
 
 export default ProfileScreen;

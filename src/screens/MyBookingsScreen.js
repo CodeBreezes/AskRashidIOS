@@ -5,16 +5,14 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
-  Dimensions,
   TouchableOpacity,
   Modal,
   ScrollView,
+  Image,
 } from 'react-native';
 import MainLayout from '../components/MainLayout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MyBookingsScreen = () => {
   const [bookings, setBookings] = useState([]);
@@ -54,7 +52,6 @@ const MyBookingsScreen = () => {
       const filtered = response.data.filter(
         (booking) => booking.userId.toString() === userId
       );
-      // NOTE: You might want to sort bookings by date here.
       setBookings(filtered);
     } catch (error) {
       console.error('Failed to fetch bookings:', error);
@@ -98,17 +95,22 @@ const MyBookingsScreen = () => {
       <View style={styles.cardHeader}>
         <Text style={styles.cardTitle}>{serviceMap[item.serviceId] || 'N/A'}</Text>
         <View style={styles.statusPill}>
-          {/* Replace with actual booking status if available */}
-          <Text style={styles.statusText}>Confirmed</Text> 
+          <Text style={styles.statusText}>Confirmed</Text>
         </View>
       </View>
       <View style={styles.cardDetails}>
         <View style={styles.detailItem}>
-          <MaterialIcons name="date-range" size={16} color="#555" />
+          <Image
+            source={require('../assets/icons/calendar.png')} // Replace with your calendar PNG
+            style={styles.icon}
+          />
           <Text style={styles.detailText}>{formatDate(item.startedDate)}</Text>
         </View>
         <View style={styles.detailItem}>
-          <FontAwesome5 name="clock" size={14} color="#555" />
+          <Image
+            source={require('../assets/icons/wall-clock.png')} // Replace with your clock PNG
+            style={styles.icon}
+          />
           <Text style={styles.detailText}>{formatTime(item.startedTime)}</Text>
         </View>
       </View>
@@ -128,7 +130,10 @@ const MyBookingsScreen = () => {
         />
       ) : (
         <View style={styles.noDataContainer}>
-          <FontAwesome5 name="calendar-times" size={40} color="#bbb" />
+          <Image
+            source={require('../assets/icons/book.png')} // Replace with your empty calendar PNG
+            style={{ width: 50, height: 50, tintColor: '#bbb' }}
+          />
           <Text style={styles.noDataText}>You have no bookings yet.</Text>
         </View>
       )}
@@ -148,27 +153,39 @@ const MyBookingsScreen = () => {
                       {serviceMap[selectedBooking.serviceId] || 'Booking Details'}
                     </Text>
                     <TouchableOpacity onPress={() => setModalVisible(false)}>
-                      <MaterialIcons name="close" size={24} color="#333" />
+                      <Image
+                        source={require('../assets/icons/cross.png')} // Close icon PNG
+                        style={styles.closeIcon}
+                      />
                     </TouchableOpacity>
                   </View>
 
                   <View style={styles.modalInfoCard}>
                     <View style={styles.modalInfoItem}>
-                      <FontAwesome5 name="calendar-alt" size={16} color="#0D5EA6" />
+                      <Image
+                        source={require('../assets/icons/calendar.png')}
+                        style={styles.icon}
+                      />
                       <View style={{ marginLeft: 10 }}>
                         <Text style={styles.modalInfoLabel}>Date</Text>
                         <Text style={styles.modalInfoValue}>{formatDate(selectedBooking.startedDate)}</Text>
                       </View>
                     </View>
                     <View style={styles.modalInfoItem}>
-                      <FontAwesome5 name="clock" size={16} color="#0D5EA6" />
+                      <Image
+                        source={require('../assets/icons/wall-clock.png')}
+                        style={styles.icon}
+                      />
                       <View style={{ marginLeft: 10 }}>
                         <Text style={styles.modalInfoLabel}>Time</Text>
                         <Text style={styles.modalInfoValue}>{formatTime(selectedBooking.startedTime)}</Text>
                       </View>
                     </View>
                     <View style={styles.modalInfoItem}>
-                      <MaterialIcons name="event-available" size={16} color="#0D5EA6" />
+                      <Image
+                        source={require('../assets/icons/circle.png')} // Status PNG
+                        style={styles.icon}
+                      />
                       <View style={{ marginLeft: 10 }}>
                         <Text style={styles.modalInfoLabel}>Status</Text>
                         <Text style={styles.modalInfoValue}>Paid</Text>
@@ -255,6 +272,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#555',
   },
+  icon: {
+    width: 18,
+    height: 18,
+    resizeMode: 'contain',
+    tintColor: '#555',
+  },
   noDataContainer: {
     flex: 1,
     alignItems: 'center',
@@ -287,6 +310,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     color: '#333',
+  },
+  closeIcon: {
+    width: 22,
+    height: 22,
+    tintColor: '#333',
   },
   modalInfoCard: {
     backgroundColor: '#f5f5f5',

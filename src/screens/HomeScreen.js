@@ -26,11 +26,12 @@ const HomeScreen = ({ navigation }) => {
           {/* Name + Blue Tick */}
           <View style={styles.nameRow}>
             <Text style={styles.name}>Rashid Bahattab</Text>
-            <Image
-              source={require('../assets/icons/bluetick.png')}
-              style={styles.tickIcon}
-              resizeMode="contain"
-            />
+              <Image
+                
+                source={require('../assets/icons/verify.png')}
+                style={styles.starIcon}
+                resizeMode="contain"
+              />
           </View>
 
           {/* Stars Row */}

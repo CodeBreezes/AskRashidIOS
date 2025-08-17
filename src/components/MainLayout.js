@@ -39,6 +39,7 @@ const MainLayout = ({ title, children }) => {
 
     loadUserData();
   }, []);
+
   const navigateTo = (screen) => {
     setDrawerVisible(false);
     navigation.navigate(screen);
@@ -47,34 +48,80 @@ const MainLayout = ({ title, children }) => {
   return (
     <View style={{ flex: 1 }}>
       {/* HEADER */}
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => setDrawerVisible(true)}>
-          <Image source={require('../assets/menu.png')} style={styles.menuIcon} />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{title}</Text>
-        <View style={{ width: 25 }} />
-      </View>
+   <View style={styles.headerContainer}>
+  <TouchableOpacity onPress={() => setDrawerVisible(true)}>
+    <Image
+      source={require('../assets/menu.png')}
+      style={[styles.menuIcon, { tintColor: '#fff' }]}
+    />
+  </TouchableOpacity>
+  <Text style={styles.headerTitle}>{title}</Text>
+  <View style={{ width: 25 }} />
+</View>
+
 
       {/* DRAWER */}
       {drawerVisible && (
-        <TouchableOpacity style={styles.overlay} activeOpacity={1} onPress={() => setDrawerVisible(false)}>
+        <TouchableOpacity
+          style={styles.overlay}
+          activeOpacity={1}
+          onPress={() => setDrawerVisible(false)}
+        >
           <View style={styles.drawer}>
-           
             <View style={styles.profileContainer}>
-              <Image source={require('../assets/rashidprofile.jpg')} style={styles.avatar} />
+              <Image
+                source={
+                  profileImage
+                    ? { uri: profileImage }
+                    : require('../assets/rashidprofile.jpg')
+                }
+                style={styles.avatar}
+              />
               <Text style={styles.name}>{fullName}</Text>
               <Text style={styles.subtitle}>{phone || 'No phone available'}</Text>
             </View>
 
             <ScrollView style={styles.menuContainer}>
-              <DrawerItem label="🏠 Dashboard" onPress={() => navigateTo('Dashboard')} />
-              <DrawerItem label="📅 Book Appointment" onPress={() => navigateTo('BookingScreen')} />
-              <DrawerItem label="📖 My Bookings" onPress={() => navigateTo('MyBookings')} />
-              <DrawerItem label="💳 Payment History" onPress={() => navigateTo('PaymentHistoryScreen')} />
-              <DrawerItem label="🔒 Change Password" onPress={() => navigateTo('ChangePasswordScreen')} />
-              <DrawerItem label="ℹ️ About Rashid Bahattab" onPress={() => navigateTo('AboutScreen')} />
-              <DrawerItem label="❓ Help & Info" onPress={() => navigateTo('HelpInfoScreen')} />
-              <DrawerItem label="🚪 Logout" onPress={() => navigation.navigate('Logout')} />
+              <DrawerItem
+                icon={require('../assets/icons/home.png')}
+                label="Dashboard"
+                onPress={() => navigateTo('Dashboard')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/writing.png')}
+                label="Book Appointment"
+                onPress={() => navigateTo('BookingScreen')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/calendar.png')}
+                label="My Bookings"
+                onPress={() => navigateTo('MyBookings')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/credit.png')}
+                label="Payment History"
+                onPress={() => navigateTo('PaymentHistoryScreen')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/padlock.png')}
+                label="Change Password"
+                onPress={() => navigateTo('ChangePasswordScreen')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/info.png')}
+                label="About Rashid Bahattab"
+                onPress={() => navigateTo('AboutScreen')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/question.png')}
+                label="Help & Info"
+                onPress={() => navigateTo('HelpInfoScreen')}
+              />
+              <DrawerItem
+                icon={require('../assets/icons/logout.png')}
+                label="Logout"
+                onPress={() => navigation.navigate('Logout')}
+              />
             </ScrollView>
           </View>
         </TouchableOpacity>
@@ -86,8 +133,9 @@ const MainLayout = ({ title, children }) => {
   );
 };
 
-const DrawerItem = ({ label, onPress }) => (
+const DrawerItem = ({ icon, label, onPress }) => (
   <TouchableOpacity style={styles.menuItem} onPress={onPress}>
+    <Image source={icon} style={styles.menuIconItem} resizeMode="contain" />
     <Text style={styles.label}>{label}</Text>
   </TouchableOpacity>
 );
@@ -104,7 +152,7 @@ const styles = StyleSheet.create({
   menuIcon: {
     width: 25,
     height: 25,
-    tintColor: '#fff',
+    tintColor: '#0D5EA6',
   },
   headerTitle: {
     color: '#fff',
@@ -128,16 +176,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingBottom: 20,
     justifyContent: 'space-between',
-  },
-  headerBackground: {
-    position: 'absolute',
-    top: -70,
-    left: -50,
-    width: 300,
-    height: 300,
-    borderRadius: 150,
-    backgroundColor: 'white',
-    zIndex: -1,
   },
   profileContainer: {
     alignItems: 'center',
@@ -165,9 +203,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 14,
     borderBottomWidth: 0.5,
     borderBottomColor: '#eee',
+  },
+  menuIconItem: {
+    width: 20,
+    height: 20,
+    tintColor: '#0D5EA6', // keep consistent with dashboard
+    marginRight: 12,
   },
   label: {
     fontSize: 16,

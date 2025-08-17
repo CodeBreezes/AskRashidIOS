@@ -1,8 +1,12 @@
-// HomeScreen.styles.js
 import { StyleSheet, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 export default StyleSheet.create({
+  // Add this new style for SafeAreaView
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   screen: {
     flex: 1,
     backgroundColor: '#fff',
@@ -30,14 +34,13 @@ export default StyleSheet.create({
   nameRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    // iOS 14+ supports gap, but Android doesn't yet; adjust if needed
     marginBottom: 8,
   },
   name: {
     fontSize: width * 0.06,
     fontWeight: 'bold',
     marginRight: 6,
-    color: '#333',         // ✅ explicit color
+    color: '#333',
   },
   starsRow: {
     flexDirection: 'row',
@@ -48,17 +51,16 @@ export default StyleSheet.create({
     color: '#F9A825',
     marginLeft: 5,
     fontSize: width * 0.035,
-    // optional: add shadow or bold if readability is still an issue
   },
   sectionTitle: {
     fontWeight: 'bold',
     marginTop: 16,
     fontSize: width * 0.045,
-    color: '#444',         // ✅ explicit color
+    color: '#444',
   },
   description: {
     marginTop: 6,
-    color: '#555',         // ✅ explicit color
+    color: '#555',
     fontSize: width * 0.037,
     lineHeight: 22,
   },
@@ -80,21 +82,22 @@ export default StyleSheet.create({
     fontSize: width * 0.045,
   },
 
-  // ✅ NEW: for About screen social icons
-socialIconsRow: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  marginTop: 12,
-},
-
-iconSpacing: {
-  marginRight: 12,
-},
-
-
-  // ✅ Optional wrapper (non-conflicting with existing layout)
+  socialIconsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+  iconSpacing: {
+    marginRight: 12,
+  },
   profileImageWrapper: {
     alignItems: 'center',
     marginTop: 20,
   },
+  starIcon: {
+  width: 18,
+  height: 18,
+  marginRight: 3,
+},
+
 });

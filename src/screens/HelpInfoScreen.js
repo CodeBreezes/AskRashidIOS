@@ -8,15 +8,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
+  Image,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import MainLayout from '../components/MainLayout';
 import { useNavigation } from '@react-navigation/native';
 
-
-
 const HelpInfoScreen = () => {
-const navigation = useNavigation();
+  const navigation = useNavigation();
 
   const openPhone = () => Linking.openURL('tel:+971505706200');
   const openWhatsApp = () => Linking.openURL('https://wa.me/971505706200');
@@ -29,9 +27,9 @@ const navigation = useNavigation();
 
           {/* How to Book */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="clipboard-list" size={18} /> How to Book an Appointment?
-            </Text>
+            <View style={styles.titleRow}>
+              <Text style={styles.sectionTitle}> How to Book an Appointment?</Text>
+            </View>
             {[
               'Choose a Service\nBrowse through our list and pick the service you need.',
               'Type Your Topic & Description\nTell us what the appointment is about and briefly describe your concern or request — this helps us prepare better.',
@@ -48,9 +46,9 @@ const navigation = useNavigation();
 
           {/* After Booking */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="phone" size={18} /> What Happens After Booking?
-            </Text>
+            <View style={styles.titleRow}>
+              <Text style={styles.sectionTitle}> What Happens After Booking?</Text>
+            </View>
             <Text style={styles.paragraph}>
               Once your booking is confirmed, our team will reach out to you via call or WhatsApp to finalize the service details.
             </Text>
@@ -58,9 +56,10 @@ const navigation = useNavigation();
 
           {/* Payment Info */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="credit-card" size={18} /> Payment Information
-            </Text>
+            <View style={styles.titleRow}>
+              <Image source={require('../assets/icons/credit.png')} style={styles.icon} />
+              <Text style={styles.sectionTitle}> Payment Information</Text>
+            </View>
             <Text style={styles.paragraph}>
               All payments are processed securely through Stripe, one of the world's most trusted payment gateways. You can pay using your debit/credit card directly within the app.
               {'\n\n'}Once the payment is successful, you'll receive an on-screen confirmation and an optional email receipt.
@@ -69,9 +68,10 @@ const navigation = useNavigation();
 
           {/* Rescheduling */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="calendar-alt" size={18} /> Rescheduling or Cancelling?
-            </Text>
+            <View style={styles.titleRow}>
+              <Image source={require('../assets/icons/calendar.png')} style={styles.icon} />
+              <Text style={styles.sectionTitle}> Rescheduling or Cancelling?</Text>
+            </View>
             <Text style={styles.paragraph}>
               If you need to change your appointment, please use our Contact Us form as soon as possible and provide your booking details so we can assist you accordingly. Rescheduling options may depend on service availability.
             </Text>
@@ -79,27 +79,31 @@ const navigation = useNavigation();
 
           {/* Contact */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="headset" size={18} /> Contact Support
-            </Text>
+            <View style={styles.titleRow}>
+              <Image source={require('../assets/icons/support.png')} style={styles.icon} />
+              <Text style={styles.sectionTitle}> Contact Support</Text>
+            </View>
             <TouchableOpacity onPress={openPhone}>
-              <Text style={styles.paragraph}>For any support-related questions or concerns, feel free to reach out to us through our Contact Us page or email us directly.</Text>
+              <Text style={styles.paragraph}>
+                For any support-related questions or concerns, feel free to reach out to us through our Contact Us page or email us directly.
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={() => navigation.navigate('ContactUsScreen')}>
               <Text style={styles.link}>💬 Contact Us</Text>
             </TouchableOpacity>
-
           </View>
 
           {/* Privacy */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>
-              <Icon name="lock" size={18} /> Privacy & Data Security
-            </Text>
+            <View style={styles.titleRow}>
+              <Image source={require('../assets/icons/padlock.png')} style={styles.icon} />
+              <Text style={styles.sectionTitle}> Privacy & Data Security</Text>
+            </View>
             <Text style={styles.paragraph}>
               We value your privacy. All your personal and payment details are stored securely and are not shared with any third parties.
             </Text>
           </View>
+
         </ScrollView>
       </SafeAreaView>
     </MainLayout>
@@ -119,13 +123,6 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 40,
   },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#0D5EA6',
-    textAlign: 'center',
-    marginBottom: 25,
-  },
   section: {
     marginBottom: 25,
     backgroundColor: '#FFFFFF',
@@ -137,11 +134,21 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    tintColor: '#0D5EA6',
+    marginRight: 8,
+  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 10,
   },
   stepItem: {
     flexDirection: 'row',

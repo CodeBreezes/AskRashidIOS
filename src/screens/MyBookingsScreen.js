@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     resizeMode: 'contain',
-    tintColor: '#555',
+    tintColor: '#0D5EA6',
   },
   noDataContainer: {
     flex: 1,

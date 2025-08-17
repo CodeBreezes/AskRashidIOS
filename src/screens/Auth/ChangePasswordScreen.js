@@ -10,11 +10,11 @@ import {
     Platform,
     ActivityIndicator,
     Dimensions,
+    Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { changePassword } from '../../api/userApi';
 import MainLayout from '../../components/MainLayout';
-import Icon from 'react-native-vector-icons/Ionicons'; // 👈 Added for eye icons
 
 const { width } = Dimensions.get('window');
 
@@ -28,7 +28,7 @@ const ChangePasswordScreen = () => {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState(null);
 
-    // 👇 Added states for visibility toggles
+    // 👇 visibility toggles
     const [showOld, setShowOld] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
@@ -129,7 +129,14 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setOldPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowOld(!showOld)} style={styles.eyeIcon}>
-                                    <Icon name={showOld ? 'eye-off' : 'eye'} size={20} color="#666" />
+                                    <Image
+                                        source={
+                                            showOld
+                                                ? require('../../assets/icons/eye-off.png')
+                                                : require('../../assets/icons/eye.png')
+                                        }
+                                        style={styles.eyeImage}
+                                    />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -147,7 +154,14 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setNewPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowNew(!showNew)} style={styles.eyeIcon}>
-                                    <Icon name={showNew ? 'eye-off' : 'eye'} size={20} color="#666" />
+                                    <Image
+                                        source={
+                                            showNew
+                                                ? require('../../assets/icons/eye-off.png')
+                                                : require('../../assets/icons/eye.png')
+                                        }
+                                        style={styles.eyeImage}
+                                    />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -165,7 +179,14 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setConfirmPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={styles.eyeIcon}>
-                                    <Icon name={showConfirm ? 'eye-off' : 'eye'} size={20} color="#666" />
+                                    <Image
+                                        source={
+                                            showConfirm
+                                                ? require('../../assets/icons/eye-off.png')
+                                                : require('../../assets/icons/eye.png')
+                                        }
+                                        style={styles.eyeImage}
+                                    />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -254,6 +275,11 @@ const styles = StyleSheet.create({
     },
     eyeIcon: {
         paddingHorizontal: 6,
+    },
+    eyeImage: {
+        width: 22,
+        height: 22,
+        tintColor: '#666',
     },
     button: {
         backgroundColor: '#4c66f5',

@@ -13,16 +13,16 @@ export const loginUser = async (credentials) => {
 
 export const checkEmailExists = async (email) => {
   try {
-    // Corrected: Send the email as a JSON object, not a string.
     const response = await axios.post(
       'http://appointment.bitprosofttech.com/api/UserAccount/CheckEmailExists',
-      { email: email }, // This is the key change
+      JSON.stringify(email), // 🔑 send raw string
       {
         headers: {
           'Content-Type': 'application/json',
         },
       }
     );
+
     return response.data;
   } catch (error) {
     console.error('Email check failed:', error?.response?.data || error.message);

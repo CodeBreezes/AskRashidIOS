@@ -16,8 +16,29 @@ PODS:
   - Firebase/Auth (12.1.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 12.1.0)
+  - Firebase/Core (12.1.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (~> 12.1.0)
   - Firebase/CoreOnly (12.1.0):
     - FirebaseCore (~> 12.1.0)
+  - FirebaseAnalytics (12.1.0):
+    - FirebaseAnalytics/Default (= 12.1.0)
+    - FirebaseCore (~> 12.1.0)
+    - FirebaseInstallations (~> 12.1.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - FirebaseAnalytics/Default (12.1.0):
+    - FirebaseCore (~> 12.1.0)
+    - FirebaseInstallations (~> 12.1.0)
+    - GoogleAppMeasurement/Default (= 12.1.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
   - FirebaseAppCheckInterop (12.1.0)
   - FirebaseAuth (12.1.0):
     - FirebaseAppCheckInterop (~> 12.1.0)
@@ -37,8 +58,39 @@ PODS:
     - FirebaseCore (~> 12.1.0)
   - FirebaseCoreInternal (12.1.0):
     - "GoogleUtilities/NSData+zlib (~> 8.1)"
+  - FirebaseInstallations (12.1.0):
+    - FirebaseCore (~> 12.1.0)
+    - GoogleUtilities/Environment (~> 8.1)
+    - GoogleUtilities/UserDefaults (~> 8.1)
+    - PromisesObjC (~> 2.4)
   - fmt (11.0.2)
   - glog (0.3.5)
+  - GoogleAdsOnDeviceConversion (2.2.0):
+    - GoogleUtilities/Logger (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/Core (12.1.0):
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/Default (12.1.0):
+    - GoogleAdsOnDeviceConversion (= 2.2.0)
+    - GoogleAppMeasurement/Core (= 12.1.0)
+    - GoogleAppMeasurement/IdentitySupport (= 12.1.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
+  - GoogleAppMeasurement/IdentitySupport (12.1.0):
+    - GoogleAppMeasurement/Core (= 12.1.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 8.1)
+    - GoogleUtilities/MethodSwizzler (~> 8.1)
+    - GoogleUtilities/Network (~> 8.1)
+    - "GoogleUtilities/NSData+zlib (~> 8.1)"
+    - nanopb (~> 3.30910.0)
   - GoogleSignIn (8.0.0):
     - AppAuth (< 2.0, >= 1.7.3)
     - AppCheckCore (~> 11.0)
@@ -53,6 +105,9 @@ PODS:
     - GoogleUtilities/Privacy
   - GoogleUtilities/Logger (8.1.0):
     - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/MethodSwizzler (8.1.0):
+    - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - GoogleUtilities/Network (8.1.0):
     - GoogleUtilities/Logger
@@ -75,6 +130,11 @@ PODS:
   - hermes-engine (0.80.2):
     - hermes-engine/Pre-built (= 0.80.2)
   - hermes-engine/Pre-built (0.80.2)
+  - nanopb (3.30910.0):
+    - nanopb/decode (= 3.30910.0)
+    - nanopb/encode (= 3.30910.0)
+  - nanopb/decode (3.30910.0)
+  - nanopb/encode (3.30910.0)
   - PromisesObjC (2.4.0)
   - RCT-Folly (2024.11.18.00):
     - boost
@@ -1747,7 +1807,7 @@ PODS:
     - Yoga
   - react-native-netinfo (11.4.1):
     - React-Core
-  - react-native-safe-area-context (5.6.0):
+  - react-native-safe-area-context (5.6.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -1766,8 +1826,8 @@ PODS:
     - React-hermes
     - React-ImageManager
     - React-jsi
-    - react-native-safe-area-context/common (= 5.6.0)
-    - react-native-safe-area-context/fabric (= 5.6.0)
+    - react-native-safe-area-context/common (= 5.6.1)
+    - react-native-safe-area-context/fabric (= 5.6.1)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-renderercss
@@ -1778,7 +1838,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-safe-area-context/common (5.6.0):
+  - react-native-safe-area-context/common (5.6.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -1807,7 +1867,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - react-native-safe-area-context/fabric (5.6.0):
+  - react-native-safe-area-context/fabric (5.6.1):
     - boost
     - DoubleConversion
     - fast_float
@@ -2399,10 +2459,10 @@ PODS:
     - ReactCommon/turbomodule/core
     - SocketRocket
     - Yoga
-  - RNFBApp (23.0.1):
+  - RNFBApp (23.1.0):
     - Firebase/CoreOnly (= 12.1.0)
     - React-Core
-  - RNFBAuth (23.0.1):
+  - RNFBAuth (23.1.0):
     - Firebase/Auth (= 12.1.0)
     - React-Core
     - RNFBApp
@@ -2663,6 +2723,8 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - fast_float (from `../node_modules/react-native/third-party-podspecs/fast_float.podspec`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
+  - Firebase/Auth
+  - Firebase/Core
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
@@ -2752,16 +2814,21 @@ SPEC REPOS:
     - AppAuth
     - AppCheckCore
     - Firebase
+    - FirebaseAnalytics
     - FirebaseAppCheckInterop
     - FirebaseAuth
     - FirebaseAuthInterop
     - FirebaseCore
     - FirebaseCoreExtension
     - FirebaseCoreInternal
+    - FirebaseInstallations
+    - GoogleAdsOnDeviceConversion
+    - GoogleAppMeasurement
     - GoogleSignIn
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - nanopb
     - PromisesObjC
     - RecaptchaInterop
     - SocketRocket
@@ -2955,19 +3022,24 @@ SPEC CHECKSUMS:
   fast_float: b32c788ed9c6a8c584d114d0047beda9664e7cc6
   FBLazyVector: 86588b5a1547e7a417942a08f49559b184e002c8
   Firebase: 9edc9acf71313eb20e209c42e5469a42564fe1aa
+  FirebaseAnalytics: e89a37004bce8789cb53f4cb3e80160d925e6624
   FirebaseAppCheckInterop: de890554a81967f16a0eb8d3def541c2bb42dece
   FirebaseAuth: 6d0f2d449195c401e6d6ef1a891fff22bc60356d
   FirebaseAuthInterop: ede927b03baf02453e6e9de2df513cc28d3eb742
   FirebaseCore: 5a452ffa66f37c8e281076996837626c5d08c090
   FirebaseCoreExtension: dd89d73548ee9be5d8dc60e5c76bc421b965853b
   FirebaseCoreInternal: ff526c22671bb564d1b34a47615e29ba99389dee
+  FirebaseInstallations: 6836550c466a6c3f753a777bec6f4e58ea228779
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
+  GoogleAdsOnDeviceConversion: b225b50f2ee6bbf856fd51a26684929b32657215
+  GoogleAppMeasurement: 61605c4152a142d797383a713ecfa5df98fe46ca
   GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: bbc1152da7d2d40f9e59c28acc6576fcf5d28e2a
+  nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: 846fda9475e61ec7bcbf8a3fe81edfcaeb090669
   RCTDeprecation: 300c5eb91114d4339b0bb39505d0f4824d7299b7
@@ -3004,7 +3076,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: dcf5321c9a41659a6718df8a5f202af1577c6825
   react-native-image-picker: 9bceb747cd6cde22a3416ffdc819d11b5b11f156
   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
-  react-native-safe-area-context: b99449a99a0e45c09050d8557c153ad63492e306
+  react-native-safe-area-context: 4df6c897ab5bd841a5bba6f734785c0c9ef4c206
   React-NativeModulesApple: 342e280bb9fc2aa5f61f6c257b309a86b995e12d
   React-oscompat: 56d6de59f9ae95cd006a1c40be2cde83bc06a4e1
   React-perflogger: 4008bd05a8b6c157b06608c0ea0b8bd5d9c5e6c9
@@ -3040,8 +3112,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b386ecff869f4a7f6d7d7f24fccb621274da7bb3
   RNCPicker: a5e6459e191fbcfca2b902f41b465418b58068b5
   RNDateTimePicker: 87557c780a44cd2ba53e485898c0dc1cb7abd744
-  RNFBApp: 8579526ddddaa6f93669d7393a7e9d090990c259
-  RNFBAuth: 1069d86051f9396a81f91124819d461c1ac2fc1c
+  RNFBApp: bea90a62e4c79c2e8dd567db9cd0b622a5bf969c
+  RNFBAuth: e8d4116fadb433df4cb875b7d9f05d53b37c5376
   RNGestureHandler: a52292df4f8fc7daab354ad2c37be401d4c3bed8
   RNGoogleSignin: 0f9deae0357018403a3c34b367456dee09c95b2c
   RNScreens: 563778e390e5e229b17f4cb1f8c78e549eadd36f
@@ -3058,6 +3130,6 @@ SPEC CHECKSUMS:
   StripeUICore: d07bd63a4b53dee8cab4d6f81ce5a7ab3e28511e
   Yoga: ce248fb32065c9b00451491b06607f1c25b2f1ed
 
-PODFILE CHECKSUM: 28937158d23d6f18e9fe76f07f2d4111572200b3
+PODFILE CHECKSUM: 5484b00e1699d7d7731d5c4336c6e8920956a027
 
 COCOAPODS: 1.16.2

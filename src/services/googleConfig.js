@@ -5,12 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const configureGoogleSignIn = () => {
   GoogleSignin.configure({
-    webClientId: '204813832132-gov8tj7qp66aj5m8oj1ss7sgpigt9rm2.apps.googleusercontent.com',  
+    webClientId: '829615278581-9r4k6eiobocpi93cjr4qrd2jegk034q7.apps.googleusercontent.com',  
+
     offlineAccess: true,
   });
 };
 
 export const handleGoogleLogin = async () => {
+  
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
 
   const signInResult = await GoogleSignin.signIn();

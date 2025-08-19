@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#333',
   },

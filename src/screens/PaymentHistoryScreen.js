@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   service: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     marginBottom: 6,
     color: '#333',

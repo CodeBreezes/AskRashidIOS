@@ -10,8 +10,10 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
+const BASE_URL = 'http://appointment.bitprosofttech.com'; // ✅ Your backend base
 
 const MainLayout = ({ title, children }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -25,12 +27,35 @@ const MainLayout = ({ title, children }) => {
       try {
         const name = await AsyncStorage.getItem('customerFullName');
         const phoneNumber = await AsyncStorage.getItem('phone');
-        const imageUrl = await AsyncStorage.getItem('profileImageUrl');
+        let imageUrl = await AsyncStorage.getItem('profileImageUrl');
+        const userId = await AsyncStorage.getItem('userId');
 
         if (name) setFullName(name);
         if (phoneNumber) setPhone(phoneNumber);
-        if (imageUrl && imageUrl !== 'null' && imageUrl !== 'undefined') {
+
+        // Remove accidental quotes if any
+        if (imageUrl) {
+          imageUrl = imageUrl.replace(/^"|"$/g, '');
+        }
+
+        // If no valid image, fetch from API
+        if ((!imageUrl || imageUrl === 'null' || imageUrl === 'undefined') && userId) {
+          const res = await axios.get(
+            `${BASE_URL}/api/Services/GetUserById?uniqueId=${userId}`
+          );
+          if (res.status === 200 && res.data?.profileImageUrl) {
+            imageUrl = res.data.profileImageUrl;
+          }
+        }
+
+        // ✅ Normalize image URL (prepend BASE_URL if relative)
+        if (imageUrl && !imageUrl.startsWith('http')) {
+          imageUrl = `${BASE_URL}${imageUrl}`;
+        }
+
+        if (imageUrl) {
           setProfileImage(imageUrl);
+          await AsyncStorage.setItem('profileImageUrl', imageUrl);
         }
       } catch (error) {
         console.warn('Failed to load user data', error);
@@ -48,17 +73,16 @@ const MainLayout = ({ title, children }) => {
   return (
     <View style={{ flex: 1 }}>
       {/* HEADER */}
-   <View style={styles.headerContainer}>
-  <TouchableOpacity onPress={() => setDrawerVisible(true)}>
-    <Image
-      source={require('../assets/menu.png')}
-      style={[styles.menuIcon, { tintColor: '#fff' }]}
-    />
-  </TouchableOpacity>
-  <Text style={styles.headerTitle}>{title}</Text>
-  <View style={{ width: 25 }} />
-</View>
-
+      <View style={styles.headerContainer}>
+        <TouchableOpacity onPress={() => setDrawerVisible(true)}>
+          <Image
+            source={require('../assets/menu.png')}
+            style={[styles.menuIcon, { tintColor: '#fff' }]}
+          />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>{title}</Text>
+        <View style={{ width: 25 }} />
+      </View>
 
       {/* DRAWER */}
       {drawerVisible && (
@@ -212,7 +236,7 @@ const styles = StyleSheet.create({
   menuIconItem: {
     width: 20,
     height: 20,
-    tintColor: '#0D5EA6', // keep consistent with dashboard
+    tintColor: '#0D5EA6',
     marginRight: 12,
   },
   label: {

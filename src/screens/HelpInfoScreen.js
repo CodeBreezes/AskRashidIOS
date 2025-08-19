@@ -16,10 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 const HelpInfoScreen = () => {
   const navigation = useNavigation();
 
-  const openPhone = () => Linking.openURL('tel:+971505706200');
-  const openWhatsApp = () => Linking.openURL('https://wa.me/971505706200');
-  const openEmail = () => Linking.openURL('mailto:info@rashidbahattab.com');
-
+  
   return (
     <MainLayout title="Help & Info">
       <SafeAreaView style={styles.safeArea}>
@@ -83,7 +80,7 @@ const HelpInfoScreen = () => {
               <Image source={require('../assets/icons/support.png')} style={styles.icon} />
               <Text style={styles.sectionTitle}> Contact Support</Text>
             </View>
-            <TouchableOpacity onPress={openPhone}>
+            <TouchableOpacity onPress={() => navigation.navigate('ContactUsScreen')}>
               <Text style={styles.paragraph}>
                 For any support-related questions or concerns, feel free to reach out to us through our Contact Us page or email us directly.
               </Text>

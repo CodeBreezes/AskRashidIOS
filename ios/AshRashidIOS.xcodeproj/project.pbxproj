@@ -13,6 +13,7 @@
 		B68CF6E9709D4CF2CD93BAE0 /* Pods_AshRashidIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AFA5C8146E65EEE26E199DB /* Pods_AshRashidIOS.framework */; };
 		BC3569842E4F374900686950 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC3569832E4F374900686950 /* GoogleService-Info.plist */; };
 		BCBD12512E55063C00CFCB73 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BCBD12502E55063C00CFCB73 /* GoogleService-Info.plist */; };
+		BCBD126E2E55224B00CFCB73 /* Contents.json in Resources */ = {isa = PBXBuildFile; fileRef = BCBD12672E55224B00CFCB73 /* Contents.json */; };
 		D2FE3BCD870506CB705EF485 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,7 @@
 		BC3569832E4F374900686950 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BC9ADE912E519F8900B2EBF4 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		BCBD12502E55063C00CFCB73 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BCBD12672E55224B00CFCB73 /* Contents.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Contents.json; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -49,6 +51,7 @@
 			children = (
 				BC3569832E4F374900686950 /* GoogleService-Info.plist */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				BCBD12672E55224B00CFCB73 /* Contents.json */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
@@ -168,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC3569842E4F374900686950 /* GoogleService-Info.plist in Resources */,
+				BCBD126E2E55224B00CFCB73 /* Contents.json in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				BCBD12512E55063C00CFCB73 /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,

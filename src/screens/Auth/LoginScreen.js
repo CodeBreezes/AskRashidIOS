@@ -107,8 +107,9 @@ const LoginScreen = () => {
       const emailExists = await checkEmailExists(user.email);
       const userData = await getUserByEmail(user.email);
       try {
+        debugger;
         if (userData?.loginEmail) {
-          await AsyncStorage.setItem('token', user.id);
+        
           await AsyncStorage.setItem('customerFullName', userData.fullName || '');
           await AsyncStorage.setItem('email', userData.loginEmail || '');
           await AsyncStorage.setItem('userId', userData.uniqueId.toString());

@@ -42,11 +42,11 @@ export default StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 8,
     elevation: 4,
-    marginTop: 16,
+    marginTop: 5,
   },
 
   label: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     color: '#444',
     marginBottom: 6,
@@ -113,11 +113,11 @@ export default StyleSheet.create({
     width: '90%',
     maxHeight: '80%',
     backgroundColor: '#fff',
-    borderRadius: 20,
+    borderRadius: 25,
     padding: 20,
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 16,
     textAlign: 'center',
@@ -137,17 +137,17 @@ export default StyleSheet.create({
     marginBottom: 4,
   },
   serviceName: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '600',
     color: '#333',
   },
   serviceCost: {
-    fontSize: 15,
+    fontSize: 12,
     fontWeight: '600',
     color: '#28a745',
   },
   serviceDescription: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#666',
     marginTop: 2,
   },
@@ -159,7 +159,7 @@ export default StyleSheet.create({
   },
   modalCloseText: {
     color: '#ff5252',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
   },
   detailsButtonText: {

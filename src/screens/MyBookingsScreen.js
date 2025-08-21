@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   },
   noDataText: {
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 16,
     color: '#888',
   },
   modalOverlay: {
@@ -307,14 +307,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalTitle: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
   },
   closeIcon: {
-    width: 22,
-    height: 22,
-    tintColor: '#333',
+    width: 15,
+    height: 15,
+    tintColor: 'red',
   },
   modalInfoCard: {
     backgroundColor: '#f5f5f5',
@@ -334,7 +334,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   modalInfoValue: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
     color: '#333',
   },
@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 8,
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
   },
   sectionText: {
-    fontSize: 15,
+    fontSize: 12,
     color: '#555',
     lineHeight: 22,
   },

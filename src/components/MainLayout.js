@@ -166,7 +166,7 @@ const DrawerItem = ({ icon, label, onPress }) => (
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 55,
+    height: 45,
     backgroundColor: '#0D5EA6',
     flexDirection: 'row',
     alignItems: 'center',

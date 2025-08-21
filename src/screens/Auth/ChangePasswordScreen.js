@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#fff',
-        borderRadius: 16,
+        borderRadius: 25,
         padding: 24,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
@@ -282,12 +282,12 @@ const styles = StyleSheet.create({
         tintColor: '#666',
     },
     button: {
-        backgroundColor: '#4c66f5',
+        backgroundColor: '#0D5EA6',
         paddingVertical: 15,
         borderRadius: 25,
         alignItems: 'center',
         marginTop: 10,
-        shadowColor: '#4c66f5',
+        shadowColor: '#0D5EA6',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 10,

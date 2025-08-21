@@ -108,7 +108,6 @@ const BookingScreen = () => {
       bookingId,
       createdAt: new Date().toISOString(),
     };
-    debugger;
     navigation.navigate('PaymentScreen', { bookingData: payload });
   };
 
@@ -224,7 +223,7 @@ const BookingScreen = () => {
 
             <Text style={styles.label}>Additional Notes</Text>
             <TextInput
-              style={[styles.input, { height: 100, textAlignVertical: 'top' }]}
+              style={[styles.input, { height: 100, borderRadius: 25, textAlignVertical: 'top' }]}
               placeholder="Additional notes..."
               value={notes}
               onChangeText={setNotes}

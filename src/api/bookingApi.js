@@ -15,7 +15,6 @@ export const postBooking = async (bookingData) => {
         'Content-Type': 'application/json',
       },
     });
-debugger;
     return response;
   } catch (error) {
     throw error;

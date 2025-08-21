@@ -13,20 +13,17 @@ export const loginUser = async (credentials) => {
 
 export const checkEmailExists = async (email) => {
   try {
-    const response = await axios.post(
-      'http://appointment.bitprosofttech.com/api/UserAccount/CheckEmailExists',
-      JSON.stringify(email), // 🔑 send raw string
+    const response = await axios.get(
+      `http://appointment.bitprosofttech.com/api/UserAccount/CheckEmailExists`,
       {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        params: { email }, 
       }
     );
 
-    return response.data;
+    return response.data; 
   } catch (error) {
-    console.error('Email check failed:', error?.response?.data || error.message);
-    return false;
+    console.error("Error checking email:", error.response?.data || error.message);
+    throw error;
   }
 };
 

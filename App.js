@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { View, Platform, StatusBar } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -15,7 +15,7 @@ function MainLayout({ children }) {
       style={{
         flex: 1,
         paddingTop: insets.top,
-        backgroundColor: '#FFF',
+        backgroundColor: '#0D5EA6', // ✅ match StatusBar color
       }}
     >
       {children}

@@ -33,7 +33,7 @@ const DashboardScreen = () => {
           </TouchableOpacity>
 
           {/* Share Your Story */}
-          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ShareStory')}>
+          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ContactUsScreen')}>
             <Image
               source={require('../assets/icons/microphone.png')}
               style={styles.icon}
@@ -43,7 +43,7 @@ const DashboardScreen = () => {
           </TouchableOpacity>
 
           {/* Collaborations */}
-          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Collaboration')}>
+          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ContactUsScreen')}>
             <Image
               source={require('../assets/icons/deal.png')}
               style={styles.icon}

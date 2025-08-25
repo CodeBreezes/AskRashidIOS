@@ -104,7 +104,6 @@ const LoginScreen = () => {
     const emailExists = await checkEmailExists(user.email);
 debugger;
     if (emailExists) {
-      // 🔑 Try logging in with default password
       try {
         const loginRes = await loginUser({
           loginName: user.email,
@@ -114,7 +113,6 @@ debugger;
         if (loginRes?.status === 200 && loginRes?.data?.isLoginSuccess && loginRes?.data?.token) {
           const { token, fName, lName, email, userId, mobile } = loginRes.data;
 
-          // Save in AsyncStorage
           await AsyncStorage.setItem("token", token);
           await AsyncStorage.setItem("userId", userId.toString());
           await AsyncStorage.setItem("customerFullName", `${fName} ${lName}`);

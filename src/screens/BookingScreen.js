@@ -218,6 +218,8 @@ const BookingScreen = () => {
               placeholder="Enter topic"
               placeholderTextColor="#888"
               value={topic}
+              multiline
+              numberOfLines={2}
               onChangeText={setTopic}
             />
 

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const BASE_URL = 'http://appointment.bitprosofttech.com/api/UserAccount';
+const BASE_URL = 'https://askrashid.grahak.online/api/UserAccount';
 
 export const registerUser = async (payload) => {
   try {
     const response = await axios.post(`${BASE_URL}/UserRegistration`, payload, {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+       },
     });
     return response;
   } catch (error) {

@@ -2,7 +2,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const BASE_URL = 'http://appointment.bitprosofttech.com/api';
+const BASE_URL = '    /api';
 
 // ✅ Post a new booking
 export const postBooking = async (bookingData) => {
@@ -15,6 +15,7 @@ export const postBooking = async (bookingData) => {
         'Content-Type': 'application/json',
       },
     });
+debugger;
     return response;
   } catch (error) {
     throw error;

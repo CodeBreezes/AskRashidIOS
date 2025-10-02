@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
-  Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import MainLayout from '../components/MainLayout';
 import { useNavigation } from '@react-navigation/native';
+
+
 
 const HelpInfoScreen = () => {
   const navigation = useNavigation();
 
-  
+
   return (
     <MainLayout title="Help & Info">
       <SafeAreaView style={styles.safeArea}>
@@ -24,9 +26,9 @@ const HelpInfoScreen = () => {
 
           {/* How to Book */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Text style={styles.sectionTitle}> How to Book an Appointment?</Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              <Icon name="clipboard-list" size={18} /> How to Book an appointment?
+            </Text>
             {[
               'Choose a Service\nBrowse through our list and pick the service you need.',
               'Type Your Topic & Description\nTell us what the appointment is about and briefly describe your concern or request — this helps us prepare better.',
@@ -43,9 +45,9 @@ const HelpInfoScreen = () => {
 
           {/* After Booking */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Text style={styles.sectionTitle}> What Happens After Booking?</Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              <Icon name="phone" size={18} /> What Happens After Booking?
+            </Text>
             <Text style={styles.paragraph}>
               Once your booking is confirmed, our team will reach out to you via call or WhatsApp to finalize the service details.
             </Text>
@@ -53,10 +55,9 @@ const HelpInfoScreen = () => {
 
           {/* Payment Info */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Image source={require('../assets/icons/credit.png')} style={styles.icon} />
-              <Text style={styles.sectionTitle}> Payment Information</Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              <Icon name="credit-card" size={18} /> Payment Information
+            </Text>
             <Text style={styles.paragraph}>
               All payments are processed securely through Stripe, one of the world's most trusted payment gateways. You can pay using your debit/credit card directly within the app.
               {'\n\n'}Once the payment is successful, you'll receive an on-screen confirmation and an optional email receipt.
@@ -65,10 +66,9 @@ const HelpInfoScreen = () => {
 
           {/* Rescheduling */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Image source={require('../assets/icons/calendar.png')} style={styles.icon} />
-              <Text style={styles.sectionTitle}> Rescheduling or Cancelling?</Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              <Icon name="calendar-alt" size={18} /> Rescheduling or Cancelling?
+            </Text>
             <Text style={styles.paragraph}>
               If you need to change your appointment, please use our Contact Us form as soon as possible and provide your booking details so we can assist you accordingly. Rescheduling options may depend on service availability.
             </Text>
@@ -76,31 +76,32 @@ const HelpInfoScreen = () => {
 
           {/* Contact */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Image source={require('../assets/icons/support.png')} style={styles.icon} />
-              <Text style={styles.sectionTitle}> Contact Support</Text>
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('ContactUsScreen')}>
-              <Text style={styles.paragraph}>
-                For any support-related questions or concerns, feel free to reach out to us through our Contact Us page or email us directly.
-              </Text>
-            </TouchableOpacity>
+            <Text style={styles.sectionTitle}>
+              <Icon name="headset" size={18} /> Contact Support
+            </Text>
+            <Text style={styles.paragraph}>For any support-related questions or concerns, feel free to reach out to us through our Contact Us page or email us directly.</Text>
             <TouchableOpacity onPress={() => navigation.navigate('ContactUsScreen')}>
               <Text style={styles.link}>💬 Contact Us</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => Linking.openURL('mailto:info@rashidbahattab.com')}>
+              <Text style={[styles.link, { marginTop: 8 }]}>📧 info@rashidbahattab.com</Text>
             </TouchableOpacity>
           </View>
 
           {/* Privacy */}
           <View style={styles.section}>
-            <View style={styles.titleRow}>
-              <Image source={require('../assets/icons/padlock.png')} style={styles.icon} />
-              <Text style={styles.sectionTitle}> Privacy & Data Security</Text>
-            </View>
+            <Text style={styles.sectionTitle}>
+              <Icon name="lock" size={18} /> Privacy & Data Security
+            </Text>
             <Text style={styles.paragraph}>
               We value your privacy. All your personal and payment details are stored securely and are not shared with any third parties.
             </Text>
+            <TouchableOpacity onPress={() => Linking.openURL('https://askrashid.grahak.online/service/PrivacyPolicy')}>
+              <Text style={[styles.paragraph, { color: '#0D5EA6', textDecorationLine: 'underline' }]}>
+                Privacy Policy
+              </Text>
+            </TouchableOpacity>
           </View>
-
         </ScrollView>
       </SafeAreaView>
     </MainLayout>
@@ -120,6 +121,13 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 40,
   },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#0D5EA6',
+    textAlign: 'center',
+    marginBottom: 25,
+  },
   section: {
     marginBottom: 25,
     backgroundColor: '#FFFFFF',
@@ -131,21 +139,11 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 3,
   },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  icon: {
-    width: 20,
-    height: 20,
-    tintColor: '#0D5EA6',
-    marginRight: 8,
-  },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
+    marginBottom: 10,
   },
   stepItem: {
     flexDirection: 'row',

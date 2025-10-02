@@ -31,10 +31,11 @@ const BookingScreen = () => {
   const [selectedServiceDescription, setSelectedServiceDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const [serviceLoading, setServiceLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const serviceApiUrl = 'http://appointment.bitprosofttech.com/api/Services';
-  const serviceDetailsApiUrl = 'http://appointment.bitprosofttech.com/api/Services/api/services/GetAllServices';
+  const serviceApiUrl = 'https://askrashid.grahak.online/api/Services';
+  const serviceDetailsApiUrl = 'https://askrashid.grahak.online/api/Services/api/services/GetAllServices';
 
   const formatServiceDescription = (serviceId) => {
     const detailedService = detailedServices.find(s => s.uniqueId === serviceId);
@@ -54,27 +55,47 @@ const BookingScreen = () => {
   };
 
   useEffect(() => {
-    axios.get(serviceApiUrl)
-      .then((res) => setServices(res.data))
-      .catch(() => Alert.alert('Error', 'Unable to load basic services'));
+    const fetchData = async () => {
+      try {
+        setServiceLoading(true);
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          Alert.alert('Error', 'Session Expired. Please login again.');
+          return;
+        }
 
-    axios.get(serviceDetailsApiUrl)
-      .then((res) => setDetailedServices(res.data))
-      .catch(() => Alert.alert('Error', 'Unable to load service descriptions'));
+        // ✅ Fetch Basic Services
+        axios.get(serviceApiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => setServices(res.data))
+          .catch(() => Alert.alert('Error', 'Unable to load basic services'));
 
-    const fetchUserData = async () => {
-      const fullName = await AsyncStorage.getItem('customerFullName');
-      const id = await AsyncStorage.getItem('userId');
-      const email = await AsyncStorage.getItem('email');
-      const phone = await AsyncStorage.getItem('phone');
-      debugger;
-      if (fullName) setName(fullName);
-      if (id) setUserId(id);
-      if (email) setEmail(email);
-      if (phone) setPhone(phone);
+        // ✅ Fetch Detailed Services
+        axios.get(serviceDetailsApiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => setDetailedServices(res.data))
+          .catch(() => Alert.alert('Error', 'Unable to load service descriptions'));
+
+        // ✅ Fetch User Data from AsyncStorage
+        const fullName = await AsyncStorage.getItem('customerFullName');
+        const id = await AsyncStorage.getItem('userId');
+        const email = await AsyncStorage.getItem('email');
+        const phone = await AsyncStorage.getItem('phone');
+
+        if (fullName) setName(fullName);
+        if (id) setUserId(id);
+        if (email) setEmail(email);
+        if (phone) setPhone(phone);
+      } catch (error) {
+        console.error('Error in useEffect:', error);
+      } finally {
+        setServiceLoading(false);
+      }
     };
 
-    fetchUserData();
+    fetchData();
   }, []);
 
 
@@ -138,7 +159,37 @@ const BookingScreen = () => {
             <Text style={styles.label}>Select Service</Text>
             <TouchableOpacity
               style={styles.dropdownTouchable}
-              onPress={() => setServiceModalVisible(true)}
+              onPress={async () => {
+                setServiceModalVisible(true);
+                setServiceLoading(true);
+
+                try {
+                  const token = await AsyncStorage.getItem('token');
+                  if (!token) {
+                    Alert.alert('Error', 'Session expired. Please login again.');
+                    setServiceLoading(false);
+                    return;
+                  }
+
+                  // Fetch both basic and detailed services in parallel
+                  const [basicRes, detailedRes] = await Promise.all([
+                    axios.get('https://askrashid.grahak.online/api/Services', {
+                      headers: { Authorization: `Bearer ${token}` },
+                    }),
+                    axios.get('https://askrashid.grahak.online/api/Services/api/services/GetAllServices', {
+                      headers: { Authorization: `Bearer ${token}` },
+                    }),
+                  ]);
+
+                  setServices(basicRes.data);
+                  setDetailedServices(detailedRes.data);
+                } catch (error) {
+                  console.error('Error fetching services:', error);
+                  Alert.alert('Error', 'Unable to load services.');
+                } finally {
+                  setServiceLoading(false);
+                }
+              }}
             >
               <Text style={styles.dropdownText}>
                 {selectedService
@@ -147,12 +198,21 @@ const BookingScreen = () => {
               </Text>
             </TouchableOpacity>
 
-            {/* Service Modal */}
-            <Modal visible={serviceModalVisible} animationType="slide" transparent>
-              <View style={styles.modalOverlay}>
-                <View style={[styles.modalContent, { maxHeight: '85%' }]}>
-                  <Text style={styles.modalTitle}>Select a Service</Text>
+            
 
+          {/* Service Modal */}
+          <Modal visible={serviceModalVisible} animationType="slide" transparent>
+            <View style={styles.modalOverlay}>
+              <View style={[styles.modalContent, { maxHeight: '85%' }]}>
+                <Text style={styles.modalTitle}>Select a Service</Text>
+
+                {serviceLoading ? (
+                  // Loader while services are fetching
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 20 }}>
+                    <ActivityIndicator size="large" color="#000" />
+                    <Text style={{ marginTop: 10, color: '#555', fontSize: 14 }}>Loading services...</Text>
+                  </View>
+                ) : (
                   <FlatList
                     data={services}
                     keyExtractor={(item) => item.uniqueId.toString()}
@@ -184,115 +244,119 @@ const BookingScreen = () => {
                       </TouchableOpacity>
                     )}
                   />
+                )}
 
-                  <TouchableOpacity style={styles.modalClose} onPress={() => setServiceModalVisible(false)}>
-                    <Text style={styles.modalCloseText}>Close</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-
-            {/* Description Modal */}
-            <Modal visible={descriptionModalVisible} animationType="slide" transparent>
-              <View style={styles.modalOverlay}>
-                <View style={[styles.modalContent, { maxHeight: '85%' }]}>
-                  <Text style={styles.modalTitle}>Service Description</Text>
-                  <ScrollView style={{ marginBottom: 20 }} showsVerticalScrollIndicator>
-                    <Text style={{ color: '#222', fontSize: 14, fontWeight: '500', lineHeight: 20 }}>
-                      {selectedServiceDescription}
-                    </Text>
-                  </ScrollView>
-                  <TouchableOpacity
-                    style={styles.modalClose}
-                    onPress={() => setDescriptionModalVisible(false)}
-                  >
-                    <Text style={styles.modalCloseText}>Close</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </Modal>
-
-            <Text style={styles.label}>Enter Topic</Text>
-            <TextInput
-              style={[styles.input, { height: 100, textAlignVertical: 'top' }]}
-              placeholder="Enter topic"
-              placeholderTextColor="#888"
-              value={topic}
-              multiline
-              numberOfLines={2}
-              onChangeText={setTopic}
-            />
-
-            <Text style={styles.label}>Additional Notes</Text>
-            <TextInput
-              style={[styles.input, { height: 100, borderRadius: 25, textAlignVertical: 'top' }]}
-              placeholder="Additional notes..."
-              value={notes}
-              onChangeText={setNotes}
-              placeholderTextColor="#888"
-              multiline
-              numberOfLines={4}
-            />
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Date</Text>
-                <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateButton}>
-                  <Text style={styles.dateButtonText}>
-                    {date ? `📆 ${date.toDateString()}` : 'Select Date'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Time</Text>
-                <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.dateButton}>
-                  <Text style={styles.dateButtonText}>
-                    {time ? `🕒 ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Select Time'}
-                  </Text>
+                <TouchableOpacity style={styles.modalClose} onPress={() => setServiceModalVisible(false)}>
+                  <Text style={styles.modalCloseText}>Close</Text>
                 </TouchableOpacity>
               </View>
             </View>
-            
-            {/* New Modal Date/Time Pickers */}
-            <DateTimePickerModal
-              isVisible={showDatePicker}
-              mode="date"
-              onConfirm={handleDateConfirm}
-              onCancel={() => setShowDatePicker(false)}
-              date={date}
-              minimumDate={new Date()}
-            />
+          </Modal>
 
-            <DateTimePickerModal
-              isVisible={showTimePicker}
-              mode="time"
-              onConfirm={handleTimeConfirm}
-              onCancel={() => setShowTimePicker(false)}
-              date={time}
-            />
-            {/* End of New Modal Pickers */}
 
-            <TouchableOpacity style={styles.bookButton} onPress={handlePaymentBooking} disabled={loading}>
-              {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
-              ) : (
-                <Text style={styles.bookButtonText}>Confirm & Pay</Text>
-              )}
-            </TouchableOpacity>
+          {/* Description Modal */}
+          <Modal visible={descriptionModalVisible} animationType="slide" transparent>
+            <View style={styles.modalOverlay}>
+              <View style={[styles.modalContent, { maxHeight: '85%' }]}>
+                <Text style={styles.modalTitle}>Service Description</Text>
+                <ScrollView style={{ marginBottom: 20 }} showsVerticalScrollIndicator>
+                  <Text style={{ color: '#222', fontSize: 14, fontWeight: '500', lineHeight: 20 }}>
+                    {selectedServiceDescription}
+                  </Text>
+                </ScrollView>
+                <TouchableOpacity
+                  style={styles.modalClose}
+                  onPress={() => setDescriptionModalVisible(false)}
+                >
+                  <Text style={styles.modalCloseText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
+
+          <Text style={styles.label}>Enter Topic</Text>
+          <TextInput
+            style={[styles.input, { height: 100, textAlignVertical: 'top' }]}
+            placeholder="Enter topic"
+            placeholderTextColor="#888"
+            value={topic}
+            multiline
+            numberOfLines={2}
+            onChangeText={setTopic}
+          />
+
+          <Text style={styles.label}>Additional Notes</Text>
+          <TextInput
+            style={[styles.input, { height: 100, borderRadius: 25, textAlignVertical: 'top' }]}
+            placeholder="Additional notes..."
+            value={notes}
+            onChangeText={setNotes}
+            placeholderTextColor="#888"
+            multiline
+            numberOfLines={4}
+          />
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>Date</Text>
+              <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateButton}>
+                <Text style={styles.dateButtonText}>
+                  {date ? `📆 ${date.toDateString()}` : 'Select Date'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>Time</Text>
+              <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.dateButton}>
+                <Text style={styles.dateButtonText}>
+                  {time ? `🕒 ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Select Time'}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
 
-      {loading && (
-        <View style={{
-          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-          backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center'
-        }}>
-          <ActivityIndicator size="large" color="#fff" />
+          {/* New Modal Date/Time Pickers */}
+          <DateTimePickerModal
+            isVisible={showDatePicker}
+            mode="date"
+            onConfirm={handleDateConfirm}
+            onCancel={() => setShowDatePicker(false)}
+            date={date}
+            minimumDate={new Date()}
+          />
+
+          <DateTimePickerModal
+            isVisible={showTimePicker}
+            mode="time"
+            onConfirm={handleTimeConfirm}
+            onCancel={() => setShowTimePicker(false)}
+            date={time}
+          />
+          {/* End of New Modal Pickers */}
+
+          <TouchableOpacity style={styles.bookButton} onPress={handlePaymentBooking} disabled={loading}>
+            {loading ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Text style={styles.bookButtonText}>Confirm & Pay</Text>
+            )}
+          </TouchableOpacity>
         </View>
-      )}
-    </MainLayout>
+      </ScrollView>
+    </KeyboardAvoidingView>
+
+      {
+    loading && (
+      <View style={{
+        position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+        backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center'
+      }}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
+    )
+  }
+    </MainLayout >
   );
 };
 

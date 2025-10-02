@@ -18,9 +18,17 @@ const PaymentHistoryScreen = () => {
   const [serviceMap, setServiceMap] = useState({});
   const fetchServices = async () => {
     try {
+      const token = await AsyncStorage.getItem('token');
       const response = await axios.get(
-        'http://appointment.bitprosofttech.com/api/Services/api/services/GetAllServices'
+        'https://askrashid.grahak.online/api/Services/api/services/GetAllServices',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
       );
+
       const services = response.data;
       const map = {};
       services.forEach((service) => {
@@ -47,7 +55,7 @@ const PaymentHistoryScreen = () => {
       const phone = await AsyncStorage.getItem('phone');
 
       const response = await fetch(
-        `http://appointment.bitprosofttech.com/api/Payment/get-payments-by-phone/${phone}`,
+        `https://askrashid.grahak.online/api/Payment/get-payments-by-phone/${phone}`,
         {
           method: 'GET',
           headers: {
@@ -123,7 +131,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 10,
     color: '#6200ee',
@@ -149,7 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   label: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#555',
   },
   value: {

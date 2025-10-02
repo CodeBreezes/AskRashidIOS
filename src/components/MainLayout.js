@@ -13,7 +13,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
-const BASE_URL = 'http://appointment.bitprosofttech.com'; // ✅ Your backend base
+const BASE_URL = 'https://askrashid.grahak.online'; 
 
 const MainLayout = ({ title, children }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -112,7 +112,7 @@ const MainLayout = ({ title, children }) => {
                 onPress={() => navigateTo('Dashboard')}
               />
               <DrawerItem
-                icon={require('../assets/icons/writing.png')}
+                icon={require('../assets/icons/booking.png')}
                 label="Book Appointment"
                 onPress={() => navigateTo('BookingScreen')}
               />
@@ -146,6 +146,14 @@ const MainLayout = ({ title, children }) => {
                 label="Logout"
                 onPress={() => navigation.navigate('Logout')}
               />
+              <DrawerItem
+                icon={require('../assets/icons/delete.png')}
+                label="Delete Account"
+                 onPress={() => navigateTo('Delete')}
+                style={{ backgroundColor: 'transparent' }}
+                iconStyle={{ tintColor: 'red' }}
+                labelStyle={{ color: 'red', fontWeight: 'bold' }}
+              />
             </ScrollView>
           </View>
         </TouchableOpacity>
@@ -157,10 +165,10 @@ const MainLayout = ({ title, children }) => {
   );
 };
 
-const DrawerItem = ({ icon, label, onPress }) => (
-  <TouchableOpacity style={styles.menuItem} onPress={onPress}>
-    <Image source={icon} style={styles.menuIconItem} resizeMode="contain" />
-    <Text style={styles.label}>{label}</Text>
+const DrawerItem = ({ icon, label, onPress, style, iconStyle, labelStyle }) => (
+  <TouchableOpacity style={[styles.menuItem, style]} onPress={onPress}>
+    {icon && <Image source={icon} style={[styles.menuIconItem, iconStyle]} resizeMode="contain" />}
+    <Text style={[styles.label, labelStyle]}>{label}</Text>
   </TouchableOpacity>
 );
 

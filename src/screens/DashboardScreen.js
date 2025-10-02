@@ -25,7 +25,7 @@ const DashboardScreen = () => {
           {/* Book a Talk */}
           <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('BookingScreen')}>
             <Image
-              source={require('../assets/icons/writing.png')}
+              source={require('../assets/icons/microphone.png')}
               style={styles.icon}
               resizeMode="contain"
             />
@@ -35,22 +35,28 @@ const DashboardScreen = () => {
           {/* Share Your Story */}
           <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ContactUsScreen')}>
             <Image
-              source={require('../assets/icons/microphone.png')}
+              source={require('../assets/icons/chat.png')}
               style={styles.icon}
               resizeMode="contain"
             />
-            <Text style={styles.boxTitle}>Share Your Story</Text>
+            <Text style={styles.boxTitle}>Contact Us</Text>
           </TouchableOpacity>
 
-          {/* Collaborations */}
-          <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('ContactUsScreen')}>
+          <TouchableOpacity
+            style={styles.box}
+            onPress={() =>
+              navigation.navigate('ContactUsScreen', { defaultCategory: 'Brand Collaboration' })
+            }
+          >
             <Image
               source={require('../assets/icons/deal.png')}
               style={styles.icon}
               resizeMode="contain"
             />
-            <Text style={styles.boxTitle}>Collaborations</Text>
+            <Text style={styles.boxTitle}>Collaboration</Text>
           </TouchableOpacity>
+
+
 
           {/* My Bookings */}
           <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('MyBookings')}>

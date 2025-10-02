@@ -46,12 +46,7 @@ const ProfileScreen = () => {
       "Feature Unavailable",
       "Image uploading requires an external library. Functionality has been preserved, but it is commented out to adhere to the request."
     );
-    // To enable image upload, you would need to install a library like react-native-image-picker.
-    // launchImageLibrary({ mediaType: 'photo', quality: 0.7 }, (response) => {
-    //   if (response.assets && response.assets.length > 0) {
-    //     setProfileImageUri(response.assets[0].uri);
-    //   }
-    // });
+   
   };
 
   const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
@@ -100,8 +95,13 @@ const ProfileScreen = () => {
 
     try {
       const response = await registerUser(payload);
-
+      debugger;
       if (response.status === 200 || response.status === 201) {
+        const resData = response.data;
+
+        if (resData.isCreated === false && resData.errorMessages?.length > 0) {
+          return showModal('⚠️ Registration Failed', resData.errorMessages[0]);
+        }
         const loginPayload = { loginName: phoneNumber, password };
         const loginResponse = await loginUser(loginPayload);
 
@@ -110,22 +110,14 @@ const ProfileScreen = () => {
           loginResponse.data?.isLoginSuccess &&
           loginResponse.data?.token
         ) {
-          const user = loginResponse.data;
-
-          await AsyncStorage.setItem('token', user.token);
-          await AsyncStorage.setItem('userId', user.userId.toString());
-          await AsyncStorage.setItem('customerFullName', `${user.fName} ${user.lName}`);
-          await AsyncStorage.setItem('email', user.email);
-          await AsyncStorage.setItem('phone', user.phoneNumber);
-
-
+          
           showModal(
-            '🎉 Registration Successful',
-            'You are now logged in!',
-            'Go to Dashboard',
+            '✅ Success',
+            'Your Form has been Submitted successfully',
+            'OK',
             () => {
               setModalVisible(false);
-              navigation.replace('Dashboard');
+              navigation.replace('Login');
             }
           );
         } else {
@@ -155,7 +147,7 @@ const ProfileScreen = () => {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.cardContainer}>
-           
+
             <Text style={styles.profileTitle}>Create Your Profile</Text>
             <Text style={styles.profileSubtitle}>Fill in your details to get started.</Text>
 
@@ -247,7 +239,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '100%',
     backgroundColor: '#fff',
-    borderRadius: 20,
+    borderRadius: 25,
     padding: 20,
     alignItems: 'center',
     ...Platform.select({
@@ -313,7 +305,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 55,
     backgroundColor: '#4285f4',
-    borderRadius: 10,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 10,

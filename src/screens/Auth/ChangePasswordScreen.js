@@ -10,11 +10,11 @@ import {
     Platform,
     ActivityIndicator,
     Dimensions,
-    Image,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { changePassword } from '../../api/userApi';
 import MainLayout from '../../components/MainLayout';
+import Icon from 'react-native-vector-icons/Ionicons'; // 👈 Added for eye icons
 
 const { width } = Dimensions.get('window');
 
@@ -28,7 +28,7 @@ const ChangePasswordScreen = () => {
     const [message, setMessage] = useState('');
     const [messageType, setMessageType] = useState(null);
 
-    // 👇 visibility toggles
+    // 👇 Added states for visibility toggles
     const [showOld, setShowOld] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [showConfirm, setShowConfirm] = useState(false);
@@ -129,14 +129,7 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setOldPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowOld(!showOld)} style={styles.eyeIcon}>
-                                    <Image
-                                        source={
-                                            showOld
-                                                ? require('../../assets/icons/eye-off.png')
-                                                : require('../../assets/icons/eye.png')
-                                        }
-                                        style={styles.eyeImage}
-                                    />
+                                    <Icon name={showOld ? 'eye-off' : 'eye'} size={20} color="#666" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -154,14 +147,7 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setNewPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowNew(!showNew)} style={styles.eyeIcon}>
-                                    <Image
-                                        source={
-                                            showNew
-                                                ? require('../../assets/icons/eye-off.png')
-                                                : require('../../assets/icons/eye.png')
-                                        }
-                                        style={styles.eyeImage}
-                                    />
+                                    <Icon name={showNew ? 'eye-off' : 'eye'} size={20} color="#666" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -179,14 +165,7 @@ const ChangePasswordScreen = () => {
                                     onChangeText={setConfirmPassword}
                                 />
                                 <TouchableOpacity onPress={() => setShowConfirm(!showConfirm)} style={styles.eyeIcon}>
-                                    <Image
-                                        source={
-                                            showConfirm
-                                                ? require('../../assets/icons/eye-off.png')
-                                                : require('../../assets/icons/eye.png')
-                                        }
-                                        style={styles.eyeImage}
-                                    />
+                                    <Icon name={showConfirm ? 'eye-off' : 'eye'} size={20} color="#666" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -237,7 +216,7 @@ const styles = StyleSheet.create({
     },
     card: {
         backgroundColor: '#fff',
-        borderRadius: 25,
+        borderRadius: 16,
         padding: 24,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
@@ -276,18 +255,13 @@ const styles = StyleSheet.create({
     eyeIcon: {
         paddingHorizontal: 6,
     },
-    eyeImage: {
-        width: 22,
-        height: 22,
-        tintColor: '#666',
-    },
     button: {
-        backgroundColor: '#0D5EA6',
+        backgroundColor: '#4c66f5',
         paddingVertical: 15,
         borderRadius: 25,
         alignItems: 'center',
         marginTop: 10,
-        shadowColor: '#0D5EA6',
+        shadowColor: '#4c66f5',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 10,

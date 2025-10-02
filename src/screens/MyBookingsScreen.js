@@ -5,14 +5,17 @@ import {
   FlatList,
   StyleSheet,
   ActivityIndicator,
+  Dimensions,
   TouchableOpacity,
   Modal,
   ScrollView,
-  Image,
+  Image,   
 } from 'react-native';
 import MainLayout from '../components/MainLayout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const MyBookingsScreen = () => {
   const [bookings, setBookings] = useState([]);
@@ -23,9 +26,21 @@ const MyBookingsScreen = () => {
 
   const fetchServices = async () => {
     try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        Alert.alert('Session Expired', 'Please login again.', [
+          { text: 'OK', onPress: () => navigation.replace('Login') },
+        ]);
+        return;
+      }
+
       const response = await axios.get(
-        'http://appointment.bitprosofttech.com/api/Services/api/services/GetAllServices'
+        'https://askrashid.grahak.online/api/Services/api/services/GetAllServices',
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
+
       const services = response.data;
       const serviceMapObj = {};
       services.forEach((service) => {
@@ -42,16 +57,18 @@ const MyBookingsScreen = () => {
       const userId = await AsyncStorage.getItem('userId');
       const token = await AsyncStorage.getItem('token');
       const response = await axios.get(
-        'http://appointment.bitprosofttech.com/api/Bookings',
+        'https://askrashid.grahak.online/api/Bookings',
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      debugger;
       const filtered = response.data.filter(
         (booking) => booking.userId.toString() === userId
       );
+      // NOTE: You might want to sort bookings by date here.
       setBookings(filtered);
     } catch (error) {
       console.error('Failed to fetch bookings:', error);

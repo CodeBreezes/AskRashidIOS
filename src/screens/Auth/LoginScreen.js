@@ -77,8 +77,8 @@ const LoginScreen = () => {
         await AsyncStorage.setItem('email', email);
         await AsyncStorage.setItem('phone', String(mobile));
         try {
-          const imgRes = await axios.get(`http://appointment.bitprosofttech.com/api/Services/GetUserById?uniqueId=${userId}`);
-           debugger;
+          const imgRes = await axios.get(`https://askrashid.grahak.online/api/Services/GetUserById?uniqueId=${userId}`);
+          debugger;
           if (imgRes.status === 200 && imgRes.data?.profileImageUrl) {
             await AsyncStorage.setItem('profileImageUrl', imgRes.data.profileImageUrl);
           }
@@ -98,53 +98,52 @@ const LoginScreen = () => {
   };
 
   const handleGoogleSignIn = async () => {
-  try {
-    setLoading(true);
-    const user = await handleGoogleLogin(); // Google user object
-    const emailExists = await checkEmailExists(user.email);
-debugger;
-    if (emailExists) {
-      try {
-        const loginRes = await loginUser({
-          loginName: user.email,
-          password: "12345678", // default password
-        });
+    try {
+      setLoading(true);
+      const user = await handleGoogleLogin();
+      const emailExists = await checkEmailExists(user.email);
+      debugger;
+      if (emailExists?.exists) {
+        try {
+          const loginRes = await loginUser({
+            loginName: user.email,
+            password: "12345678",
+          });
 
-        if (loginRes?.status === 200 && loginRes?.data?.isLoginSuccess && loginRes?.data?.token) {
-          const { token, fName, lName, email, userId, mobile } = loginRes.data;
+          if (loginRes?.status === 200 && loginRes?.data?.isLoginSuccess && loginRes?.data?.token) {
+            const { token, fName, lName, email, userId, mobile } = loginRes.data;
 
-          await AsyncStorage.setItem("token", token);
-          await AsyncStorage.setItem("userId", userId.toString());
-          await AsyncStorage.setItem("customerFullName", `${fName} ${lName}`);
-          await AsyncStorage.setItem("email", email);
-          await AsyncStorage.setItem("phone", String(mobile));
+            await AsyncStorage.setItem("token", token);
+            await AsyncStorage.setItem("userId", userId.toString());
+            await AsyncStorage.setItem("customerFullName", `${fName} ${lName}`);
+            await AsyncStorage.setItem("email", email);
+            await AsyncStorage.setItem("phone", String(mobile));
 
-          if (user.photoUrl) {
-            await AsyncStorage.setItem("profileImageUrl", user.photoUrl);
+            if (user.photoUrl) {
+              await AsyncStorage.setItem("profileImageUrl", user.photoUrl);
+            }
+
+            return showModal("✅ Success", "You are now logged in with Google!", () =>
+              navigation.replace("Dashboard")
+            );
+          } else {
+            return showModal("Login Failed", "Unable to log in with Google. Please try again.");
           }
-
-          return showModal("✅ Success", "You are now logged in with Google!", () =>
-            navigation.replace("Dashboard")
-          );
-        } else {
-          return showModal("Login Failed", "Unable to log in with Google. Please try again.");
+        } catch (err) {
+          console.error("Google auto-login error:", err);
+          return showModal("Login Error", "Something went wrong while logging in.");
         }
-      } catch (err) {
-        console.error("Google auto-login error:", err);
-        return showModal("Login Error", "Something went wrong while logging in.");
+      } else {
+        setGoogleUserData(user);
+        setShowGoogleModal(true);
       }
-    } else {
-      // If user does not exist → open registration modal
-      setGoogleUserData(user);
-      setShowGoogleModal(true);
+    } catch (error) {
+      console.error(error);
+      showModal("Google Sign-In Error", "Please try again.");
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    console.error(error);
-    showModal("Google Sign-In Error", "Please try again.");
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
 
 
@@ -165,6 +164,7 @@ debugger;
       password: googlePassword,
       confirmPassword: googleConfirmPassword,
       roles: ['Customer'],
+      googleSignIn: true,
     };
 
     try {
@@ -233,7 +233,7 @@ debugger;
 
           </View>
 
-          <TouchableOpacity style={styles.forgotPasswordContainer}>
+          <TouchableOpacity style={styles.forgotPasswordContainer}onPress={() => navigation.navigate('ForgotPassword')} >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 

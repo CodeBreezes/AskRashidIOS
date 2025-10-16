@@ -9,7 +9,6 @@ export default StyleSheet.create({
     paddingTop: 10, // Ensure content starts below header
   },
 
-  // Header (shared style with login/profile)
   headerContainer: {
     height: 55,
     backgroundColor: '#F9A825',

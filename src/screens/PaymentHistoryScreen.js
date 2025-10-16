@@ -64,8 +64,9 @@ const PaymentHistoryScreen = () => {
           },
         }
       );
-
+debugger;
       const result = await response.json();
+      debugger;
       console.log('Payment History Response:', result);
   
       setPaymentHistory(result || []);
@@ -86,7 +87,7 @@ const PaymentHistoryScreen = () => {
       <View style={styles.row}>
         <Text style={styles.label}>Date:</Text>
         <Text style={styles.value}>
-          {moment(item.createdDate).format('DD MMM YYYY, hh:mm A')}
+          {moment(item.createdAt).format('DD MMM YYYY, hh:mm A')}
         </Text>
       </View>
       <View style={styles.row}>

@@ -7,8 +7,10 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Modal,
+  FlatList,
+  Platform,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
 import { useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
@@ -28,6 +30,7 @@ const ContactUsScreen = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [modalContent, setModalContent] = useState({ title: '', message: '' });
+  const [categoryModalVisible, setCategoryModalVisible] = useState(false);
 
   const categoryOptions = [
     { label: 'Brand Collaboration', value: 'Brand Collaboration' },
@@ -77,13 +80,10 @@ const ContactUsScreen = () => {
         message: message,
       };
 
-      const res = await axios.post(
-        'https://askrashid.grahak.online/api/Feedbacks',
-        payload
-      );
+      const res = await axios.post('https://askrashid.grahak.online/api/Feedbacks', payload);
 
       if (res.status === 200 || res.status === 201) {
-        showModal('✅ Success', 'Your Form has been submitted successfully.');
+        showModal('✅ Success', 'Your form has been submitted successfully.');
         if (!isCategoryReadonly) setCategory('');
         setMessage('');
       } else {
@@ -106,20 +106,12 @@ const ContactUsScreen = () => {
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Name</Text>
-          <TextInput
-            value={fullName}
-            editable={false}
-            style={[styles.input, styles.inputDisabled]}
-          />
+          <TextInput value={fullName} editable={false} style={[styles.input, styles.inputDisabled]} />
         </View>
 
         <View style={styles.inputGroup}>
           <Text style={styles.label}>Email</Text>
-          <TextInput
-            value={email}
-            editable={false}
-            style={[styles.input, styles.inputDisabled]}
-          />
+          <TextInput value={email} editable={false} style={[styles.input, styles.inputDisabled]} />
         </View>
 
         <View style={styles.inputGroup}>
@@ -128,22 +120,21 @@ const ContactUsScreen = () => {
           {isCategoryReadonly ? (
             <Text style={styles.readonlyText}>{category}</Text>
           ) : (
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={category}
-                onValueChange={setCategory}
-                style={styles.picker}
+            <TouchableOpacity
+              style={styles.categorySelector}
+              onPress={() => setCategoryModalVisible(true)}
+            >
+              <Text
+                style={[
+                  styles.categoryText,
+                  !category && { color: '#999' },
+                ]}
               >
-                <Picker.Item label="-- Select Category --" value="" />
-                {categoryOptions.map((option) => (
-                  <Picker.Item
-                    key={option.value}
-                    label={option.label}
-                    value={option.value}
-                  />
-                ))}
-              </Picker>
-            </View>
+                {category
+                  ? categoryOptions.find(opt => opt.value === category)?.label
+                  : '-- Select Category --'}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
 
@@ -179,6 +170,41 @@ const ContactUsScreen = () => {
           message={modalContent.message}
           onConfirm={() => setModalVisible(false)}
         />
+
+        {/* Category Modal */}
+        <Modal
+          transparent
+          visible={categoryModalVisible}
+          animationType="fade"
+          onRequestClose={() => setCategoryModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalBox}>
+              <Text style={styles.modalTitle}>Select Category</Text>
+              <FlatList
+                data={categoryOptions}
+                keyExtractor={item => item.value}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    style={styles.modalOption}
+                    onPress={() => {
+                      setCategory(item.value);
+                      setCategoryModalVisible(false);
+                    }}
+                  >
+                    <Text style={styles.modalOptionText}>{item.label}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+              <TouchableOpacity
+                style={styles.modalCancelButton}
+                onPress={() => setCategoryModalVisible(false)}
+              >
+                <Text style={styles.modalCancelText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </MainLayout>
   );
@@ -187,6 +213,7 @@ const ContactUsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 24,
+    flexGrow: 1,
   },
   subHeaderText: {
     fontSize: 16,
@@ -216,18 +243,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#EAEFF4',
     color: '#6E7C8B',
   },
- pickerContainer: {
-  backgroundColor: '#fff',
-  borderRadius: 25,
-  borderWidth: 1,
-  borderColor: '#E0E6ED',
-},
-
-picker: {
-  height: 50,
-  width: '100%',
-  color: '#333',
-},
+  categorySelector: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#E0E6ED',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+  },
+  categoryText: {
+    fontSize: 16,
+    color: '#333',
+  },
   readonlyText: {
     padding: 14,
     backgroundColor: '#e9ecef',
@@ -236,7 +264,7 @@ picker: {
     color: '#555',
   },
   textArea: {
-    height: 120,
+    minHeight: 120,
     paddingTop: 14,
   },
   submitButton: {
@@ -260,6 +288,47 @@ picker: {
     color: '#fff',
     fontWeight: '700',
     fontSize: 18,
+  },
+
+  // Modal styling
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalBox: {
+    width: '85%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    maxHeight: '70%',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 16,
+    color: '#0D5EA6',
+    textAlign: 'center',
+  },
+  modalOption: {
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E6ED',
+  },
+  modalOptionText: {
+    fontSize: 16,
+    color: '#333',
+    textAlign: 'center',
+  },
+  modalCancelButton: {
+    marginTop: 12,
+    alignSelf: 'center',
+  },
+  modalCancelText: {
+    color: '#0D5EA6',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

@@ -208,6 +208,44 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
   },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  text: {
+    color: '#fff',
+    marginTop: 10,
+    fontSize: 16,
+  },
+
+  /* --- Social Login Row --- */
+  socialLoginRow: {
+    flexDirection: 'row', // keep both icons in same row
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 24,
+    gap: 20, // spacing between Google & Apple buttons
+  },
+
+  /* --- Circle Button for icons --- */
+  circleButton: {
+    width: 48, // smaller circle
+    height: 48,
+    borderRadius: 24, // perfect circle
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
 });
 
 export default styles;

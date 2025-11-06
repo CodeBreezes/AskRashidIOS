@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardTitle: {
-    fontSize: 12,
+    fontSize: 9.5,
     fontWeight: 'bold',
     color: '#333',
   },
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   statusText: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#388e3c',
   },
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 12,
     fontWeight: 'bold',
     color: '#333',
   },

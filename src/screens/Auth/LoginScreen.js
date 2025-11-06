@@ -145,7 +145,9 @@ const LoginScreen = () => {
     }
   };
 
-
+  const handleAppleSignIn = () => {
+    navigation.navigate('AppleLogin');
+  };
 
   const handleGoogleRegistration = async () => {
     if (!googlePhone || !googlePassword || !googleConfirmPassword) {
@@ -233,7 +235,7 @@ const LoginScreen = () => {
 
           </View>
 
-          <TouchableOpacity style={styles.forgotPasswordContainer}onPress={() => navigation.navigate('ForgotPassword')} >
+          <TouchableOpacity style={styles.forgotPasswordContainer} onPress={() => navigation.navigate('ForgotPassword')} >
             <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
           </TouchableOpacity>
 
@@ -245,7 +247,10 @@ const LoginScreen = () => {
             <Image source={require('../../assets/google_logo.png')} style={customStyles.googleLogo} />
             <Text style={customStyles.googleSignInText}>Sign in with Google</Text>
           </TouchableOpacity>
-
+          <TouchableOpacity style={customStyles.googleSignInButton} onPress={handleAppleSignIn}>
+            <Image source={require('../../assets/Applelogo.png')} style={customStyles.googleLogo} />
+            <Text style={customStyles.appleSignInText}>Sign in with Apple</Text>
+          </TouchableOpacity>
           <View style={styles.registerContainer}>
             <Text style={styles.registerText}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>

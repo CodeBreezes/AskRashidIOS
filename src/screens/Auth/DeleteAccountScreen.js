@@ -9,8 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const BASE_URL = "https://askrashid.grahak.online";
+import { BASE_API_URL } from '../../api/apiConfig';
 
 const DeleteAccountScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(true);
@@ -35,7 +34,7 @@ const DeleteAccountScreen = ({ navigation }) => {
       setLoading(true);
 
       // Correct API call with email as query string
-      const url = `${BASE_URL}/api/Services/DeleteAccount?email=${encodeURIComponent(
+      const url = `${BASE_API_URL}/api/Services/DeleteAccount?email=${encodeURIComponent(
         userEmail
       )}`;
 
@@ -177,5 +176,23 @@ const styles = StyleSheet.create({
   confirmText: {
     color: "#fff",
     fontWeight: "600",
+  },
+  deleteButton: {
+    marginTop: 20,
+    paddingVertical: 14,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  deleteButtonText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

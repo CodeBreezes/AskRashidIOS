@@ -18,6 +18,8 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CustomAlertModal from '../components/CustomAlertModal';
 import MainLayout from '../components/MainLayout';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { BASE_API_URL } from '../api/apiConfig';
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
@@ -33,7 +35,7 @@ const UpdateProfileScreen = () => {
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [uniqueId, setUniqueId] = useState(null);
-
+  const navigation = useNavigation();
   const [initialDob, setInitialDob] = useState(null);
   const [initialGender, setInitialGender] = useState('');
   const [initialImageUri, setInitialImageUri] = useState(null);
@@ -43,10 +45,15 @@ const UpdateProfileScreen = () => {
 
   const [showGenderDropdown, setShowGenderDropdown] = useState(false);
 
-  const API_BASE_URL = 'https://askrashid.grahak.online/api';
+  const API_BASE_URL = `${BASE_API_URL}/api`;
   const UPDATE_USER_API = `${API_BASE_URL}/UserAccount/UpdateProfile`;
-  const IMAGE_BASE_URL = 'https://askrashid.grahak.online';
-
+  const IMAGE_BASE_URL = `${BASE_API_URL}`;
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
   const showModal = (title, message) => {
     setModalContent({ title, message });
     setModalVisible(true);
@@ -122,7 +129,7 @@ const UpdateProfileScreen = () => {
     formData.append('LastName', lastName);
     formData.append('Email', email);
     formData.append('PhoneNumber', phoneNumber);
-    formData.append('DateOfBirth', dob.toISOString());
+    formData.append('DateOfBirth', formatDate(dob));
     formData.append('Address', 'UAE'); // Hardcoded default address
     formData.append('Gender', gender);
 
@@ -298,6 +305,12 @@ const UpdateProfileScreen = () => {
               <Text style={styles.buttonText}>Update Profile</Text>
             )}
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={() => navigation.navigate('Delete')}
+          >
+            <Text style={styles.deleteButtonText}>Delete Account</Text>
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
 
@@ -377,6 +390,24 @@ const styles = StyleSheet.create({
     marginTop: 40,
     alignItems: 'center',
     width: '100%',
+  },
+  deleteButton: {
+    marginTop: 20,
+    paddingVertical: 14,
+    borderRadius: 25,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    width: '100%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  deleteButtonText: {
+    color: 'red',
+    fontSize: 16,
+    fontWeight: '600',
   },
   buttonDisabled: { backgroundColor: '#BCAAA4' },
   buttonText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },

@@ -1,12 +1,11 @@
 
 
 import axios from 'axios';
-
-const BASE_URL = 'https://askrashid.grahak.online/api/UserAccount';
+import { BASE_API_URL } from './apiConfig';
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post(`${BASE_URL}/Login`, credentials);
+    const response = await axios.post(`${BASE_API_URL}/api/UserAccount/Login`, credentials);
     return response;
   } catch (error) {
     throw error;
@@ -16,12 +15,12 @@ export const loginUser = async (credentials) => {
 export const checkEmailExists = async (email) => {
   try {
     const response = await axios.get(
-      `https://askrashid.grahak.online/api/UserAccount/CheckEmailExists`,
+      `${BASE_API_URL}/api/UserAccount/CheckEmailExists`,
       {
         params: { email }, 
       }
     );
-
+debugger;
     return response.data; 
   } catch (error) {
     console.error("Error checking email:", error.response?.data || error.message);
@@ -33,7 +32,7 @@ export const checkEmailExists = async (email) => {
 export const getUserByEmail = async (email) => {
   try {
     const response = await axios.get(
-      `https://askrashid.grahak.online/api/Services/GetUserByEmail`,
+      `${BASE_API_URL}/api/Services/GetUserByEmail`,
       {
         params: { email },
       }

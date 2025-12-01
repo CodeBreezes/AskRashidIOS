@@ -1,15 +1,14 @@
 // bookingApi.js
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const BASE_URL = '    /api';
+import { BASE_API_URL } from './apiConfig';
 
 // ✅ Post a new booking
 export const postBooking = async (bookingData) => {
   try {
     const token = await AsyncStorage.getItem('token');
 
-    const response = await axios.post(`${BASE_URL}/Bookings`, bookingData, {
+    const response = await axios.post(`${BASE_API_URL}/api/Bookings`, bookingData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',

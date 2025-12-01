@@ -36,7 +36,7 @@ export default function AppleLoginScreen({ navigation }) {
 
       const emailExists = await checkEmailExists(finalEmail);
       if (emailExists?.exists) {
-        await loginExistingUser(finalEmail, DEFAULT_APPLE_PASSWORD, navigation);
+        await loginExistingUser(finalEmail, DEFAULT_APPLE_PASSWORD);
       } else {
         setShowPhoneModal(true);
       }
@@ -49,8 +49,9 @@ export default function AppleLoginScreen({ navigation }) {
     }
   };
 
-  const loginExistingUser = async (email, password, navigation) => {
+  const loginExistingUser = async (email, password) => {
     try {
+      setLoading(true);
       const loginRes = await loginUser({
         loginName: email,
         password: password,
@@ -71,7 +72,7 @@ export default function AppleLoginScreen({ navigation }) {
         await AsyncStorage.setItem('phone', String(mobile));
 
         Alert.alert('✅ Success', 'You are now logged in with Apple!', [
-          { text: 'OK', onPress: () => navigation.replace('Dashboard')},
+          { text: 'OK', onPress: () => navigation.replace('Dashboard') },
         ]);
       } else {
         Alert.alert('Login Failed', 'Unable to log in with Apple. Please try again.');
@@ -86,11 +87,10 @@ export default function AppleLoginScreen({ navigation }) {
     if (!applePhone) {
       return Alert.alert('Validation Error', 'Please enter your phone number.');
     }
-debugger;
     setLoading(true);
 
     const payload = {
-      firstName: 'Guest',
+      firstName: 'New',
       lastName: 'User',
       phoneNumber: applePhone,
       email: appleEmail,
@@ -98,12 +98,13 @@ debugger;
       confirmPassword: '12345678',
       roles: ['Customer'],
       googleSignIn: true,
-      appleUserId: appleUserId, 
+      appleUserId: appleUserId,
     };
 
     try {
       const regRes = await registerUser(payload);
-debugger;
+      setLoading(true);
+
       if (regRes.status === 200 || regRes.status === 201) {
         await loginExistingUser(appleEmail, '12345678');
       } else {

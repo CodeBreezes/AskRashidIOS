@@ -11,8 +11,9 @@ import {
 import { StripeProvider, useStripe } from '@stripe/stripe-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute, useNavigation } from '@react-navigation/native';
+import { BASE_API_URL } from '../api/apiConfig';
 
-const API_BASE_URL = 'https://askrashid.grahak.online/api/Payment';
+const API_BASE_URL = `${BASE_API_URL}/api/Payment`;
 
 const PaymentInnerScreen = () => {
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -83,7 +84,7 @@ const PaymentInnerScreen = () => {
           userId: parseInt(userIdFromStorage || bookingData.userId),
         };
         const token = await AsyncStorage.getItem('token');
-        const bookingRes = await fetch(`https://askrashid.grahak.online/api/Bookings`, {
+        const bookingRes = await fetch(`${BASE_API_URL}/api/Bookings`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -185,7 +186,7 @@ const PaymentInnerScreen = () => {
 
 export default function PaymentScreenWrapper() {
   return (
-    <StripeProvider publishableKey="pk_test_51S7vZWIutE88E4iRMhuS7JGNNkBygOa1Jasd3RlKf5ZwfZy2Lia52pZ0450KozM0r2AurHXOEnSU0kY03VVCJM6200SBQqQuGt">
+    <StripeProvider publishableKey="pk_live_51S7vZWIutE88E4iRjM2b6qV77z4DO2yi0k1vvmIeGtQHZvk0c3aCbsCfuVGVkrfeo6gVkPewfHpEPvcWlwjFw1km00MGR6Roji">
       <PaymentInnerScreen />
     </StripeProvider>
   );

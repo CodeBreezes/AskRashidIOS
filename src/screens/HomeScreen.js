@@ -98,7 +98,7 @@ const HomeScreen = ({ navigation }) => {
             style={styles.button}
             onPress={() => navigation.navigate('AuthLoading')}
           >
-            <Text style={styles.buttonText}>Book a session</Text>
+            <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

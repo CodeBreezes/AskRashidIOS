@@ -17,6 +17,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
   },
+
   headerTitle: {
     color: '#fff',
     fontSize: 18,
@@ -24,13 +25,15 @@ export default StyleSheet.create({
     textAlign: 'center',
     flex: 1,
   },
+
   menuIcon: {
     width: 24,
     height: 24,
     tintColor: '#fff',
   },
+
   headerSpacer: {
-    width: 24, 
+    width: 24,
   },
 
   card: {
@@ -52,16 +55,15 @@ export default StyleSheet.create({
     marginTop: 10,
   },
 
- input: {
-  borderWidth: 1,
-  borderColor: '#ccc',
-  borderRadius: 25,
-  padding: 12,
-  marginBottom: 10,
-  backgroundColor: '#fff',   
-  color: '#000',              
-},
-
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 25,
+    padding: 12,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    color: '#000',
+  },
 
   dropdownTouchable: {
     backgroundColor: '#fff',
@@ -73,6 +75,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 12,
   },
+
   dropdownText: {
     fontSize: 15,
     color: '#333',
@@ -84,6 +87,7 @@ export default StyleSheet.create({
     borderRadius: 25,
     marginBottom: 10,
   },
+
   dateButtonText: {
     color: '#333',
     fontSize: 12,
@@ -96,25 +100,42 @@ export default StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
   },
+
   bookButtonText: {
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
   },
 
+  // 🆕 Modal overlay - full-screen dim background
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 10, // 🆕 spacing for small devices
   },
+
+  // 🆕 Modal main container
   modalContent: {
-    width: '90%',
-    maxHeight: '80%',
+    width: '100%',
+    maxHeight: '80%', // 🆕 increased height for iOS long content
     backgroundColor: '#fff',
     borderRadius: 25,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
   },
+
+  // 🆕 Scroll view for long modal content
+  modalScrollView: {
+    flexGrow: 0,
+    maxHeight: '70%', // keeps "Close" button visible
+  },
+
   modalTitle: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -125,43 +146,54 @@ export default StyleSheet.create({
   serviceCard: {
     backgroundColor: '#f1f1f1',
     borderRadius: 25,
-    paddingVertical: 12,
-    paddingHorizontal: 14,
+    paddingVertical: 14, // 🆕 more padding for easier taps
+    paddingHorizontal: 16,
     marginBottom: 8,
   },
+
   serviceRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 4,
   },
+
   serviceName: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '600',
     color: '#333',
   },
+
   serviceCost: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     color: '#28a745',
   },
+
   serviceDescription: {
     fontSize: 12,
     color: '#666',
     marginTop: 2,
   },
 
+  // 🆕 Close button always visible and easy to tap
   modalClose: {
-    marginTop: 12,
+    marginTop: 16,
     alignSelf: 'center',
-    padding: 10,
+    backgroundColor: '#ffeaea', // light red tint
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 25,
   },
+
   modalCloseText: {
     color: '#ff5252',
-    fontSize: 12,
-    fontWeight: '600',
+    fontSize: 13,
+    fontWeight: '700',
   },
+
   detailsButtonText: {
     color: 'blue',
-    }
+    fontSize: 11,
+  },
 });

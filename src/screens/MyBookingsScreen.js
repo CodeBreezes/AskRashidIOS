@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { BASE_API_URL } from '../api/apiConfig';
 
 const MyBookingsScreen = () => {
   const [bookings, setBookings] = useState([]);
@@ -35,7 +36,7 @@ const MyBookingsScreen = () => {
       }
 
       const response = await axios.get(
-        'https://askrashid.grahak.online/api/Services/api/services/GetAllServices',
+        `${BASE_API_URL}/api/Services/api/services/GetAllServices`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -57,7 +58,7 @@ const MyBookingsScreen = () => {
       const userId = await AsyncStorage.getItem('userId');
       const token = await AsyncStorage.getItem('token');
       const response = await axios.get(
-        'https://askrashid.grahak.online/api/Bookings',
+        `${BASE_API_URL}/api/Bookings`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import CustomAlertModal from '../components/CustomAlertModal';
 import MainLayout from '../components/MainLayout';
+import { BASE_API_URL } from '../api/apiConfig';
 
 const ContactUsScreen = () => {
   const route = useRoute();
@@ -80,7 +81,7 @@ const ContactUsScreen = () => {
         message: message,
       };
 
-      const res = await axios.post('https://askrashid.grahak.online/api/Feedbacks', payload);
+      const res = await axios.post(`${BASE_API_URL}/api/Feedbacks`, payload);
 
       if (res.status === 200 || res.status === 201) {
         showModal('✅ Success', 'Your form has been submitted successfully.');

@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: '#ddd',
+    width: '90%',
   },
 
   googleLogo: {

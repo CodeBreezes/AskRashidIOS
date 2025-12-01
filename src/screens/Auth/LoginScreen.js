@@ -21,6 +21,8 @@ import CustomAlertModal from '../../components/CustomAlertModal';
 import { loginUser, checkEmailExists, getUserByEmail } from '../../api/loginApi';
 import { registerUser } from '../../api/userApi';
 import { configureGoogleSignIn, handleGoogleLogin } from '../../services/googleConfig';
+import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
+import { BASE_API_URL } from '../../api/apiConfig';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -77,8 +79,7 @@ const LoginScreen = () => {
         await AsyncStorage.setItem('email', email);
         await AsyncStorage.setItem('phone', String(mobile));
         try {
-          const imgRes = await axios.get(`https://askrashid.grahak.online/api/Services/GetUserById?uniqueId=${userId}`);
-          debugger;
+          const imgRes = await axios.get(`${BASE_API_URL}/api/Services/GetUserById?uniqueId=${userId}`);
           if (imgRes.status === 200 && imgRes.data?.profileImageUrl) {
             await AsyncStorage.setItem('profileImageUrl', imgRes.data.profileImageUrl);
           }
@@ -247,10 +248,19 @@ const LoginScreen = () => {
             <Image source={require('../../assets/google_logo.png')} style={customStyles.googleLogo} />
             <Text style={customStyles.googleSignInText}>Sign in with Google</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={customStyles.googleSignInButton} onPress={handleAppleSignIn}>
-            <Image source={require('../../assets/Applelogo.png')} style={customStyles.googleLogo} />
-            <Text style={customStyles.appleSignInText}>Sign in with Apple</Text>
-          </TouchableOpacity>
+          <AppleButton
+            buttonStyle={AppleButton.Style.BLACK}    
+            buttonType={AppleButton.Type.SIGN_IN}
+            style={{
+              width: '95%',
+              height: 44,
+              alignSelf: 'center',
+              marginTop: 24,
+              borderRadius: 25 ,
+            }}
+            onPress={handleAppleSignIn}
+          />
+
           <View style={styles.registerContainer}>
             <Text style={styles.registerText}>Don't have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
@@ -344,7 +354,7 @@ const customStyles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 8,
     paddingVertical: 12,
-    paddingHorizontal: 20,
+   
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
@@ -352,6 +362,7 @@ const customStyles = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: '#ddd',
+    width: '95%',
   },
   googleLogo: {
     width: 20,
@@ -366,3 +377,4 @@ const customStyles = StyleSheet.create({
 });
 
 export default LoginScreen;
+

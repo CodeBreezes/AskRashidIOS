@@ -60,6 +60,22 @@ const PaymentInnerScreen = () => {
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: clientSecret,
       merchantDisplayName: 'Ask Rashid',
+      allowsDelayedPaymentMethods: true,
+      
+      applePay: {
+        merchantCountryCode: "AE",
+        merchantIdentifier: "merchant.com.askrashidme.askrashid",
+        testEnv: false,
+      },
+
+      // ✅ Enable Google Pay
+      googlePay: {
+        merchantCountryCode: "AE",
+        testEnv: false, 
+      },
+
+      style: 'automatic',
+
     });
 
     if (!error) {
@@ -186,7 +202,9 @@ const PaymentInnerScreen = () => {
 
 export default function PaymentScreenWrapper() {
   return (
-    <StripeProvider publishableKey="pk_live_51S7vZWIutE88E4iRjM2b6qV77z4DO2yi0k1vvmIeGtQHZvk0c3aCbsCfuVGVkrfeo6gVkPewfHpEPvcWlwjFw1km00MGR6Roji">
+    <StripeProvider
+      merchantIdentifier="merchant.com.askrashidme.askrashid"
+      publishableKey="pk_live_51S7vZWIutE88E4iRjM2b6qV77z4DO2yi0k1vvmIeGtQHZvk0c3aCbsCfuVGVkrfeo6gVkPewfHpEPvcWlwjFw1km00MGR6Roji">
       <PaymentInnerScreen />
     </StripeProvider>
   );

@@ -177,22 +177,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
   },
-  deleteButton: {
-    marginTop: 20,
-    paddingVertical: 14,
-    borderRadius: 25,
-    backgroundColor: 'white',
-    alignItems: 'center',
-    width: '100%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 3,
-  },
-  deleteButtonText: {
-    color: 'red',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  
 });

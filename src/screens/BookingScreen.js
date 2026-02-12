@@ -12,6 +12,8 @@ import { postBooking } from '../api/bookingApi';
 import { useNavigation } from '@react-navigation/native';
 import uuid from 'react-native-uuid';
 import { BASE_API_URL } from '../api/apiConfig';
+import { useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 
 const BookingScreen = () => {
@@ -34,6 +36,8 @@ const BookingScreen = () => {
   const [serviceLoading, setServiceLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const route = useRoute();
+  const [slotId, setSlotId] = useState(null);
   
   const serviceApiUrl = `${BASE_API_URL}/api/Services`;
   const serviceDetailsApiUrl = `${BASE_API_URL}/api/Services/api/services/GetAllServices`;
@@ -54,6 +58,14 @@ const BookingScreen = () => {
 
     return desc.trim();
   };
+
+  useEffect(() => {
+    if (route.params?.startedDate && route.params?.startedTime) {
+      setDate(new Date(route.params.startedDate));
+      setTime(new Date(`1970-01-01T${route.params.startedTime}`));
+      setSlotId(route.params.slotId);
+    }
+  }, [route.params]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -145,6 +157,8 @@ const BookingScreen = () => {
     setShowTimePicker(false);
     setTime(selectedTime);
   };
+  const { t } = useTranslation();
+
 
   return (
     <MainLayout title="Book Appointment">
@@ -303,43 +317,18 @@ const BookingScreen = () => {
               multiline
               numberOfLines={4}
             />
+              <Text style={styles.label}>{t('selectDateTime')}</Text>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}>
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Date</Text>
-                <TouchableOpacity onPress={() => setShowDatePicker(true)} style={styles.dateButton}>
-                  <Text style={styles.dateButtonText}>
-                    {date ? `📆 ${date.toDateString()}` : 'Select Date'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={{ flex: 1 }}>
-                <Text style={styles.label}>Time</Text>
-                <TouchableOpacity onPress={() => setShowTimePicker(true)} style={styles.dateButton}>
-                  <Text style={styles.dateButtonText}>
-                    {time ? `🕒 ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 'Select Time'}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {/* New Modal Date/Time Pickers */}
-            <DateTimePickerModal
-              isVisible={showDatePicker}
-              mode="date"
-              onConfirm={handleDateConfirm}
-              onCancel={() => setShowDatePicker(false)}
-              date={date}
-              minimumDate={new Date()}
-            />
-            <DateTimePickerModal
-              isVisible={showTimePicker}
-              mode="time"
-              onConfirm={handleTimeConfirm}
-              onCancel={() => setShowTimePicker(false)}
-              date={time}
-            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SlotPicker')}
+              style={styles.dateButton}
+            >
+              <Text style={styles.dateButtonText}>
+                {slotId
+                  ? `📅 ${date.toDateString()}  🕒 ${time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                  :  t('selectAvailableSlot')}
+              </Text>
+            </TouchableOpacity>
             {/* End of New Modal Pickers */}
 
             <TouchableOpacity style={styles.bookButton} onPress={handlePaymentBooking} disabled={loading}>

@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Ash Rashid</string>
+	<string>Ask Rashid</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -37,6 +37,16 @@
 			</array>
 		</dict>
 	</array>
+	<!-- 🔥 APPLE PAY CONFIG -->
+	<key>ApplePayMerchantIdentifier</key>
+	<string>merchant.com.askrashidme.askrashid</string>
+
+	<key>SupportedPaymentNetworks</key>
+	<array>
+		<string>visa</string>
+		<string>mastercard</string>
+		<string>amex</string>
+	</array>
 
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -46,7 +56,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>appointment.bitprosofttech.com</key>
+			<key>test.askrashid.me</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

@@ -12,7 +12,8 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { BASE_API_URL } from '../api/apiConfig';
-
+import { useTranslation } from 'react-i18next';
+import i18n from '../i18n';
 
 const { width, height } = Dimensions.get('window');
 
@@ -65,7 +66,14 @@ const MainLayout = ({ title, children }) => {
 
     loadUserData();
   }, []);
+  const { t } = useTranslation();
+  const [currentLang, setCurrentLang] = useState(i18n.language);
 
+  const toggleLanguage = async () => {
+    const newLang = currentLang === 'en' ? 'ar' : 'en';
+    await i18n.changeLanguage(newLang);
+    setCurrentLang(newLang);
+  };
   const navigateTo = (screen) => {
     setDrawerVisible(false);
     navigation.navigate(screen);
@@ -105,11 +113,46 @@ const MainLayout = ({ title, children }) => {
               <Text style={styles.name}>{fullName}</Text>
               <Text style={styles.subtitle}>{phone || 'No phone available'}</Text>
             </View>
+            {/* LANGUAGE SWITCH*/}
+            <View style={styles.languageWrapper}>
+              <TouchableOpacity style={styles.languageSwitch} onPress={toggleLanguage}>
+                <View
+                  style={[
+                    styles.langOption,
+                    currentLang === 'en' && styles.langActive,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.langText,
+                      currentLang === 'en' && styles.langTextActive,
+                    ]}
+                  >
+                    EN
+                  </Text>
+                </View>
 
+                <View
+                  style={[
+                    styles.langOption,
+                    currentLang === 'ar' && styles.langActive,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.langText,
+                      currentLang === 'ar' && styles.langTextActive,
+                    ]}
+                  >
+                    عربي
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
             <ScrollView style={styles.menuContainer}>
               <DrawerItem
                 icon={require('../assets/icons/home.png')}
-                label="Dashboard"
+                label={t('dashboard')}
                 onPress={() => navigateTo('Dashboard')}
               />
               <DrawerItem
@@ -252,9 +295,70 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
   },
+  
   content: {
     flex: 1,
     backgroundColor: '#F8F8F8',
+  },
+  languageContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+
+  languageLabel: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 6,
+  },
+  languageSwitch: {
+    flexDirection: 'row',
+    backgroundColor: '#F2F2F2',
+    borderRadius: 30,
+    padding: 4,
+    borderWidth: 1,
+    borderColor: '#DDD',
+  },
+  languageWrapper: {
+    alignItems: 'center',
+    marginTop: 15,
+    marginBottom: 10,
+  },
+
+  languageSwitch: {
+    flexDirection: 'row',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 30,
+    padding: 4,
+    borderWidth: 1,
+    borderColor: '#DDD',
+    alignSelf: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+
+  langOption: {
+    paddingVertical: 6,
+    paddingHorizontal: 18,
+    borderRadius: 25,
+  },
+
+  langActive: {
+    backgroundColor: '#0D5EA6',
+    borderRadius: 25,
+  },
+
+  langText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+  },
+
+  langTextActive: {
+    color: '#FFF',
+    borderRadius: 25,
   },
 });
 

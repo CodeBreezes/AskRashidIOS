@@ -56,7 +56,7 @@
 		<true/>
 		<key>NSExceptionDomains</key>
 		<dict>
-			<key>test.askrashid.me</key>
+			<key>askrashid.me</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>

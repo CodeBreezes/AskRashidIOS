@@ -17,6 +17,7 @@ import axios from 'axios';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { BASE_API_URL } from '../api/apiConfig';
+import { useTranslation } from 'react-i18next';
 
 const MyBookingsScreen = () => {
   const [bookings, setBookings] = useState([]);
@@ -24,7 +25,7 @@ const MyBookingsScreen = () => {
   const [serviceMap, setServiceMap] = useState({});
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const { t } = useTranslation();
   const fetchServices = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -113,7 +114,7 @@ const MyBookingsScreen = () => {
       <View style={styles.cardHeader}>
         <Text style={styles.cardTitle}>{serviceMap[item.serviceId] || 'N/A'}</Text>
         <View style={styles.statusPill}>
-          <Text style={styles.statusText}>Confirmed</Text>
+          <Text style={styles.statusText}>{t('confirmed')}</Text>
         </View>
       </View>
       <View style={styles.cardDetails}>
@@ -136,7 +137,7 @@ const MyBookingsScreen = () => {
   );
 
   return (
-    <MainLayout title="My Bookings">
+    <MainLayout title={t('myBooking')}>
       {loading ? (
         <ActivityIndicator size="large" color="#FF6B6B" style={{ marginTop: 50 }} />
       ) : bookings.length > 0 ? (
@@ -149,7 +150,7 @@ const MyBookingsScreen = () => {
       ) : (
         <View style={styles.noDataContainer}>
           <Image
-            source={require('../assets/icons/book.png')} // Replace with your empty calendar PNG
+            source={require('../assets/icons/book.png')} 
             style={{ width: 50, height: 50, tintColor: '#bbb' }}
           />
           <Text style={styles.noDataText}>You have no bookings yet.</Text>

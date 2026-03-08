@@ -10,6 +10,7 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import styles from '../styles/HomeScreen.styles';
+import { useTranslation } from 'react-i18next';
 
 // Social media links
 const socialLinks = [
@@ -28,6 +29,7 @@ const openLink = (url) => {
 };
 
 const HomeScreen = ({ navigation }) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.screen}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -39,7 +41,7 @@ const HomeScreen = ({ navigation }) => {
 
         <View style={styles.content}>
           <View style={styles.nameRow}>
-            <Text style={styles.name}>Rashid Bahattab</Text>
+            <Text style={styles.name}>{t('name')}</Text>
              <Image
                 
                 source={require('../assets/icons/verify.png')}
@@ -57,13 +59,13 @@ const HomeScreen = ({ navigation }) => {
                 resizeMode="contain"
               />
             ))}
-            <Text style={styles.reviewText}> 5 reviews</Text>
+            <Text style={styles.reviewText}> {t('name')}</Text>
           </View>
 
 
-          <Text style={styles.sectionTitle}>About</Text>
+          <Text style={styles.sectionTitle}> {t('aboutTitle')}</Text>
           <Text style={styles.description}>
-            Rashid, an Emirati public figure from Abu Dhabi, UAE, offers transformative services including 1:1 lifestyle coaching, story-sharing features on his platforms, motivational event speaking, and brand collaborations — all designed to empower his community through authentic connection.
+            {t('aboutDescription')}
           </Text>
 
           {/* Updated Social Media Icons Section */}
@@ -98,7 +100,7 @@ const HomeScreen = ({ navigation }) => {
             style={styles.button}
             onPress={() => navigation.navigate('AuthLoading')}
           >
-            <Text style={styles.buttonText}>Get Started</Text>
+            <Text style={styles.buttonText}>{t('getStarted')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

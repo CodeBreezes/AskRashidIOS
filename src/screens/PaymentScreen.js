@@ -61,7 +61,7 @@ const PaymentInnerScreen = () => {
       paymentIntentClientSecret: clientSecret,
       merchantDisplayName: 'Ask Rashid',
       allowsDelayedPaymentMethods: true,
-      
+
       applePay: {
         merchantCountryCode: "AE",
         merchantIdentifier: "merchant.com.askrashidme.askrashid",
@@ -71,7 +71,7 @@ const PaymentInnerScreen = () => {
       // ✅ Enable Google Pay
       googlePay: {
         merchantCountryCode: "AE",
-        testEnv: false, 
+        testEnv: false,
       },
 
       style: 'automatic',
@@ -90,8 +90,23 @@ const PaymentInnerScreen = () => {
     const { error } = await presentPaymentSheet();
 
     if (error) {
-      Alert.alert('Payment Failed', error.message);
+      Alert.alert(
+        'Payment Failed',
+        error.message,
+        [
+          {
+            text: 'Back to Booking',
+            onPress: () =>
+              navigation.navigate('BookingScreen', {
+                bookingData: bookingData,
+              }),
+          },
+        ],
+        { cancelable: false }
+      );
+
       setLoading(false);
+      return;
     } else {
       try {
         const userIdFromStorage = await AsyncStorage.getItem('userId');

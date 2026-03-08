@@ -12,6 +12,7 @@ export default function AppleLoginScreen({ navigation }) {
   const [appleUserId, setAppleUserId] = useState('');
   const [applePhone, setApplePhone] = useState('');
 
+
   useEffect(() => {
     handleAppleLogin();
   }, []);
@@ -72,6 +73,7 @@ export default function AppleLoginScreen({ navigation }) {
         await AsyncStorage.setItem('phone', String(mobile));
 
         Alert.alert('✅ Success', 'You are now logged in with Apple!', [
+          
           { text: 'OK', onPress: () => navigation.replace('Dashboard') },
         ]);
       } else {

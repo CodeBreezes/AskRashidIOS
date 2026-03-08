@@ -8,11 +8,13 @@ import {
   Alert,
 } from "react-native";
 import { BASE_API_URL } from '../../api/apiConfig';
+import { useTranslation } from "react-i18next";
 
 const ForgotPasswordScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [step, setStep] = useState("enter"); // "enter" | "check"
   const [loading, setLoading] = useState(false);
+   const { t } = useTranslation();
 
   const handleResetPassword = async () => {
     if (!email) {

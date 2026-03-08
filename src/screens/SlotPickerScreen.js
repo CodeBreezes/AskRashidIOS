@@ -55,7 +55,7 @@ const SlotPickerScreen = ({ navigation }) => {
       setCalendarData(res.data);
       extractAvailableDates(res.data);
     } catch (e) {
-      Alert.alert("Error", "Unable to load calendar");
+      Alert.alert("Error", "No available slots.");
     } finally {
       setLoading(false);
     }

@@ -157,37 +157,37 @@ const MainLayout = ({ title, children }) => {
               />
               <DrawerItem
                 icon={require('../assets/icons/booking.png')}
-                label="Book Appointment"
+                label={t('bookAppointment')}
                 onPress={() => navigateTo('BookingScreen')}
               />
               <DrawerItem
                 icon={require('../assets/icons/calendar.png')}
-                label="My Bookings"
+                label={t('myBookings')}
                 onPress={() => navigateTo('MyBookings')}
               />
               <DrawerItem
                 icon={require('../assets/icons/credit.png')}
-                label="Payment History"
+                label={t('paymentHistory')}
                 onPress={() => navigateTo('PaymentHistoryScreen')}
               />
               <DrawerItem
                 icon={require('../assets/icons/padlock.png')}
-                label="Change Password"
+                label={t('changePassword')}
                 onPress={() => navigateTo('ChangePasswordScreen')}
               />
               <DrawerItem
                 icon={require('../assets/icons/info.png')}
-                label="About Rashid Bahattab"
+                label={t('about')}
                 onPress={() => navigateTo('AboutScreen')}
               />
               <DrawerItem
                 icon={require('../assets/icons/question.png')}
-                label="Help & Info"
+                label={t('help')}
                 onPress={() => navigateTo('HelpInfoScreen')}
               />
               <DrawerItem
                 icon={require('../assets/icons/logout.png')}
-                label="Logout"
+                label={t('logout')}
                 onPress={() => navigation.navigate('Logout')}
               />
               {/* <DrawerItem

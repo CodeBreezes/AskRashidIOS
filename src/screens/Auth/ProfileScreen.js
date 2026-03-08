@@ -19,10 +19,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { registerUser } from '../../api/userApi';
 import { loginUser } from '../../api/loginApi';
 import CustomAlertModal from '../../components/CustomAlertModal';
+import { useTranslation } from 'react-i18next';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
-
+  const { t } = useTranslation();
   const [profileImageUri, setProfileImageUri] = useState(null);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -148,13 +149,13 @@ const ProfileScreen = () => {
         >
           <View style={styles.cardContainer}>
 
-            <Text style={styles.profileTitle}>Create Your Profile</Text>
-            <Text style={styles.profileSubtitle}>Fill in your details to get started.</Text>
+            <Text style={styles.profileTitle}>{t("createProfileTitle")}</Text>
+            <Text style={styles.profileSubtitle}>{t("createProfileSubtitle")}</Text>
 
             <View style={styles.formContainer}>
               <TextInput
                 style={styles.input}
-                placeholder="First Name"
+                placeholder={t("firstName")}
                 placeholderTextColor="#999"
                 value={firstName}
                 onChangeText={setFirstName}
@@ -162,7 +163,7 @@ const ProfileScreen = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Last Name"
+                placeholder={t("lastName")}
                 placeholderTextColor="#999"
                 value={lastName}
                 onChangeText={setLastName}
@@ -170,7 +171,7 @@ const ProfileScreen = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Phone Number"
+                placeholder={t("phoneNumber")}
                 placeholderTextColor="#999"
                 value={phoneNumber}
                 onChangeText={setPhoneNumber}
@@ -178,7 +179,7 @@ const ProfileScreen = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Email"
+                placeholder={t("email")}
                 placeholderTextColor="#999"
                 value={email}
                 onChangeText={setEmail}
@@ -186,7 +187,7 @@ const ProfileScreen = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder={t("password")}
                 placeholderTextColor="#999"
                 value={password}
                 onChangeText={setPassword}
@@ -194,7 +195,7 @@ const ProfileScreen = () => {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Confirm Password"
+                placeholder={t("confirmPassword")}
                 placeholderTextColor="#999"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -205,7 +206,7 @@ const ProfileScreen = () => {
                 {loading ? (
                   <ActivityIndicator color="#fff" />
                 ) : (
-                  <Text style={styles.signUpButtonText}>Sign Up</Text>
+                  <Text style={styles.signUpButtonText}>{t("signUp")}</Text>
                 )}
               </TouchableOpacity>
             </View>

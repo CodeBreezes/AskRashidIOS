@@ -24,6 +24,7 @@ import { configureGoogleSignIn, handleGoogleLogin } from '../../services/googleC
 import { AppleButton, appleAuth } from '@invertase/react-native-apple-authentication';
 import { BASE_API_URL } from '../../api/apiConfig';
 import { useTranslation } from 'react-i18next';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -100,18 +101,22 @@ const LoginScreen = () => {
   };
 
   const handleGoogleSignIn = async () => {
+
+    if (loading) return;
     try {
       setLoading(true);
       const user = await handleGoogleLogin();
+      if (!user) {
+        setLoading(false);
+        return;
+      }
       const emailExists = await checkEmailExists(user.email);
-      debugger;
       if (emailExists?.exists) {
         try {
           const loginRes = await loginUser({
             loginName: user.email,
             password: "12345678",
           });
-
           if (loginRes?.status === 200 && loginRes?.data?.isLoginSuccess && loginRes?.data?.token) {
             const { token, fName, lName, email, userId, mobile } = loginRes.data;
 
@@ -152,12 +157,41 @@ const LoginScreen = () => {
   };
 
   const handleGoogleRegistration = async () => {
-    if (!googlePhone || !googlePassword || !googleConfirmPassword) {
-      return showModal('Validation Error', 'All fields are required');
+    const phoneRegex = /^[0-9]{10}$/;
+
+    // email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!googleUserData?.email) {
+      return showModal("Validation Error", "Email is required.");
+    }
+
+    if (!emailRegex.test(googleUserData.email)) {
+      return showModal("Validation Error", "Please enter a valid email address.");
+    }
+
+    if (!googlePhone) {
+      return showModal("Validation Error", "Phone number is required.");
+    }
+
+    if (!phoneRegex.test(googlePhone)) {
+      return showModal("Validation Error", "Phone number must be exactly 10 digits.");
+    }
+
+    if (!googlePassword) {
+      return showModal("Validation Error", "Password is required.");
+    }
+
+    if (googlePassword.length < 8) {
+      return showModal("Validation Error", "Password must be at least 8 characters.");
+    }
+
+    if (!googleConfirmPassword) {
+      return showModal("Validation Error", "Please confirm your password.");
     }
 
     if (googlePassword !== googleConfirmPassword) {
-      return showModal('Error', 'Passwords do not match');
+      return showModal("Error", "Passwords do not match.");
     }
 
     const payload = {
@@ -245,19 +279,19 @@ const LoginScreen = () => {
             <Text style={styles.loginButtonText}>{t('loginButton')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={customStyles.googleSignInButton} onPress={handleGoogleSignIn}>
+          <TouchableOpacity style={customStyles.googleSignInButton} onPress={handleGoogleSignIn} disabled={loading}>
             <Image source={require('../../assets/google_logo.png')} style={customStyles.googleLogo} />
             <Text style={customStyles.googleSignInText}>{t('googleSignIn')}</Text>
           </TouchableOpacity>
           <AppleButton
-            buttonStyle={AppleButton.Style.BLACK}    
+            buttonStyle={AppleButton.Style.BLACK}
             buttonType={AppleButton.Type.SIGN_IN}
             style={{
               width: '95%',
               height: 44,
               alignSelf: 'center',
               marginTop: 24,
-              borderRadius: 25 ,
+              borderRadius: 25,
             }}
             onPress={handleAppleSignIn}
           />
@@ -355,7 +389,7 @@ const customStyles = StyleSheet.create({
     backgroundColor: '#ffffff',
     borderRadius: 8,
     paddingVertical: 12,
-   
+
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

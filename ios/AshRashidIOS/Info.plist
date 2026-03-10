@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ApplePayMerchantIdentifier</key>
+	<string>merchant.com.askrashidme.askrashid</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -13,41 +15,32 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>$(PRODUCT_NAME)</string>
+	<string>Ask Rashid</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleVersion</key>
-	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSRequiresIPhoneOS</key>
-	<true/>
-
-	<!-- 🔑 Add Google Sign-In URL Scheme -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.askrashidios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-			<string>com.askrashidios</string>
-				<!-- Replace with your REVERSED_CLIENT_ID from GoogleService-Info.plist -->
 				<string>com.googleusercontent.apps.829615278581-9t3bh2bv49sup120v2aqnmq85vga6fgk</string>
 			</array>
 		</dict>
 	</array>
-	<!-- 🔥 APPLE PAY CONFIG -->
-	<key>ApplePayMerchantIdentifier</key>
-	<string>merchant.com.askrashidme.askrashid</string>
-
-	<key>SupportedPaymentNetworks</key>
-	<array>
-		<string>visa</string>
-		<string>mastercard</string>
-		<string>amex</string>
-	</array>
-
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -65,34 +58,21 @@
 			</dict>
 		</dict>
 	</dict>
-
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera to capture photos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app uses your location to show nearby services and improve your experience.</string>
-
-	<key>NSCameraUsageDescription</key>
-    <string>This app requires access to the camera to capture photos.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to your photo library to upload or select photos.</string>
-
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to your photo library to upload or select photos.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
-	<key>UIRequiredDeviceCapabilities</key>
+	<key>SupportedPaymentNetworks</key>
 	<array>
-		<string>arm64</string>
+		<string>visa</string>
+		<string>mastercard</string>
+		<string>amex</string>
 	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>ITSAppUsesNonExemptEncryption</key>
-   <false/>
-		<key>UIAppFonts</key>
+	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
@@ -110,6 +90,19 @@
 		<string>Octicons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>arm64</string>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
-
 </plist>

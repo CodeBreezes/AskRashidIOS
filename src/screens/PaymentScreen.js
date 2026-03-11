@@ -64,14 +64,6 @@ const PaymentInnerScreen = () => {
 
       applePay: {
         merchantCountryCode: "AE",
-        merchantIdentifier: "merchant.com.askrashidme.askrashid",
-        testEnv: false,
-      },
-
-      // ✅ Enable Google Pay
-      googlePay: {
-        merchantCountryCode: "AE",
-        testEnv: false,
       },
 
       style: 'automatic',

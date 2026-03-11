@@ -8,18 +8,21 @@ export const configureGoogleSignIn = () => {
     iosClientId: '829615278581-9t3bh2bv49sup120v2aqnmq85vga6fgk.apps.googleusercontent.com',
     webClientId: '829615278581-9r4k6eiobocpi93cjr4qrd2jegk034q7.apps.googleusercontent.com',
     offlineAccess: true,
+    forceCodeForRefreshToken: true
   });
 };
 
 export const handleGoogleLogin = async () => {
 
   await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
+  try {
+    await GoogleSignin.signOut();
+    await GoogleSignin.revokeAccess();
+  } catch (e) { }
 
   const signInResult = await GoogleSignin.signIn();
 
   if (!signInResult || !signInResult.data) {
-    await GoogleSignin.revokeAccess();
-    await GoogleSignin.signOut();
     return null;
   }
 
@@ -28,7 +31,7 @@ export const handleGoogleLogin = async () => {
 
   if (!idToken) {
     return null;
-  }
+  } 
 
   const googleCredential = GoogleAuthProvider.credential(idToken);
 

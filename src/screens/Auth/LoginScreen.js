@@ -115,7 +115,7 @@ const LoginScreen = () => {
         try {
           const loginRes = await loginUser({
             loginName: user.email,
-            password: "12345678",
+            password: "12345678", 
           });
           if (loginRes?.status === 200 && loginRes?.data?.isLoginSuccess && loginRes?.data?.token) {
             const { token, fName, lName, email, userId, mobile } = loginRes.data;

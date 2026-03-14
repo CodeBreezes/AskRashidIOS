@@ -16,7 +16,7 @@ import { BASE_API_URL } from '../api/apiConfig';
 const API_BASE_URL = `${BASE_API_URL}/api/Payment`;
 
 const PaymentInnerScreen = () => {
-  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const { initPaymentSheet, presentPaymentSheet, isApplePaySupported } = useStripe();
   const route = useRoute();
   const navigation = useNavigation();
 
@@ -30,7 +30,6 @@ const PaymentInnerScreen = () => {
     Alert.alert('Error', 'Booking data is missing');
     return null;
   }
-
   const fetchPaymentSheetParams = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -59,15 +58,22 @@ const PaymentInnerScreen = () => {
   const initializePaymentSheet = async () => {
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: clientSecret,
-      merchantDisplayName: 'Ask Rashid',
+      merchantDisplayName: "Ask Rashid",
+
+      returnURL: "askrashid://stripe-redirect",
+
       allowsDelayedPaymentMethods: true,
 
       applePay: {
         merchantCountryCode: "AE",
+        cartItems: [
+          {
+            label: "Ask Rashid",
+            amount: bookingData.amount.toString(),
+            paymentType: "Immediate",
+          },
+        ],
       },
-
-      style: 'automatic',
-
     });
 
     if (!error) {
@@ -210,7 +216,7 @@ const PaymentInnerScreen = () => {
 export default function PaymentScreenWrapper() {
   return (
     <StripeProvider
-      merchantIdentifier="merchant.com.askrashidme.askrashid"
+      merchantIdentifier="merchant.com.askrashid.pay"
       publishableKey="pk_live_51S7vZWIutE88E4iRjM2b6qV77z4DO2yi0k1vvmIeGtQHZvk0c3aCbsCfuVGVkrfeo6gVkPewfHpEPvcWlwjFw1km00MGR6Roji">
       <PaymentInnerScreen />
     </StripeProvider>

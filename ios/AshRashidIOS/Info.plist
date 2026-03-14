@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>ApplePayMerchantIdentifier</key>
-	<string>merchant.com.askrashidme.askrashid</string>
+	<string>merchant.com.askrashid.pay</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -32,6 +32,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.829615278581-9t3bh2bv49sup120v2aqnmq85vga6fgk</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>stripe</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>askrashid</string>
 			</array>
 		</dict>
 	</array>
